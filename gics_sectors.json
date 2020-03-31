@@ -1,0 +1,694 @@
+[
+    {
+        "name": "Communication Services",
+        "subsectors": [
+            {
+                "label": "Advertising",
+                "value": "Advertising"
+            },
+            {
+                "label": "Alternative Carriers",
+                "value": "Alternative Carriers"
+            },
+            {
+                "label": "Broadcasting",
+                "value": "Broadcasting"
+            },
+            {
+                "label": "Cable & Satellite",
+                "value": "Cable & Satellite"
+            },
+            {
+                "label": "Integrated Telecommunication Services",
+                "value": "Integrated Telecommunication Services"
+            },
+            {
+                "label": "Interactive Home Entertainment",
+                "value": "Interactive Home Entertainment"
+            },
+            {
+                "label": "Interactive Media & Services",
+                "value": "Interactive Media & Services"
+            },
+            {
+                "label": "Movies & Entertainment",
+                "value": "Movies & Entertainment"
+            },
+            {
+                "label": "Publishing",
+                "value": "Publishing"
+            },
+            {
+                "label": "Wireless Telecommunication Services",
+                "value": "Wireless Telecommunication Services"
+            }
+        ]
+    },
+    {
+        "name": "Industrials",
+        "subsectors": [
+            {
+                "label": "Aerospace & Defense",
+                "value": "Aerospace & Defense"
+            },
+            {
+                "label": "Agricultural & Farm Machinery",
+                "value": "Agricultural & Farm Machinery"
+            },
+            {
+                "label": "Air Freight & Logistics",
+                "value": "Air Freight & Logistics"
+            },
+            {
+                "label": "Airlines",
+                "value": "Airlines"
+            },
+            {
+                "label": "Airport Services",
+                "value": "Airport Services"
+            },
+            {
+                "label": "Building Products",
+                "value": "Building Products"
+            },
+            {
+                "label": "Commercial Printing",
+                "value": "Commercial Printing"
+            },
+            {
+                "label": "Construction & Engineering",
+                "value": "Construction & Engineering"
+            },
+            {
+                "label": "Construction Machinery & Heavy Trucks",
+                "value": "Construction Machinery & Heavy Trucks"
+            },
+            {
+                "label": "Diversified Support Services",
+                "value": "Diversified Support Services"
+            },
+            {
+                "label": "Electrical Components & Equipment",
+                "value": "Electrical Components & Equipment"
+            },
+            {
+                "label": "Environmental & Facilities Services",
+                "value": "Environmental & Facilities Services"
+            },
+            {
+                "label": "Heavy Electrical Equipment",
+                "value": "Heavy Electrical Equipment"
+            },
+            {
+                "label": "Highways & Railtracks",
+                "value": "Highways & Railtracks"
+            },
+            {
+                "label": "Human Resource & Employment Services",
+                "value": "Human Resource & Employment Services"
+            },
+            {
+                "label": "Industrial Conglomerates",
+                "value": "Industrial Conglomerates"
+            },
+            {
+                "label": "Industrial Machinery",
+                "value": "Industrial Machinery"
+            },
+            {
+                "label": "Marine",
+                "value": "Marine"
+            },
+            {
+                "label": "Marine Ports & Services",
+                "value": "Marine Ports & Services"
+            },
+            {
+                "label": "Office Services & Supplies",
+                "value": "Office Services & Supplies"
+            },
+            {
+                "label": "Railroads",
+                "value": "Railroads"
+            },
+            {
+                "label": "Research & Consulting Services",
+                "value": "Research & Consulting Services"
+            },
+            {
+                "label": "Security & Alarm Services",
+                "value": "Security & Alarm Services"
+            },
+            {
+                "label": "Trading Companies & Distributors",
+                "value": "Trading Companies & Distributors"
+            },
+            {
+                "label": "Trucking",
+                "value": "Trucking"
+            }
+        ]
+    },
+    {
+        "name": "Consumer Staples",
+        "subsectors": [
+            {
+                "label": "Agricultural Products",
+                "value": "Agricultural Products"
+            },
+            {
+                "label": "Brewers",
+                "value": "Brewers"
+            },
+            {
+                "label": "Distillers & Vintners",
+                "value": "Distillers & Vintners"
+            },
+            {
+                "label": "Drug Retail",
+                "value": "Drug Retail"
+            },
+            {
+                "label": "Food Distributors",
+                "value": "Food Distributors"
+            },
+            {
+                "label": "Food Retail",
+                "value": "Food Retail"
+            },
+            {
+                "label": "Household Products",
+                "value": "Household Products"
+            },
+            {
+                "label": "Hypermarkets & Super Centers",
+                "value": "Hypermarkets & Super Centers"
+            },
+            {
+                "label": "Packaged Foods & Meats",
+                "value": "Packaged Foods & Meats"
+            },
+            {
+                "label": "Personal Products",
+                "value": "Personal Products"
+            },
+            {
+                "label": "Soft Drinks",
+                "value": "Soft Drinks"
+            },
+            {
+                "label": "Tobacco",
+                "value": "Tobacco"
+            }
+        ]
+    },
+    {
+        "name": "Health Care",
+        "subsectors": [
+            {
+                "label": "Biotechnology",
+                "value": "Biotechnology"
+            },
+            {
+                "label": "Health Care Distributors",
+                "value": "Health Care Distributors"
+            },
+            {
+                "label": "Health Care Equipment",
+                "value": "Health Care Equipment"
+            },
+            {
+                "label": "Health Care Facilities",
+                "value": "Health Care Facilities"
+            },
+            {
+                "label": "Health Care Services",
+                "value": "Health Care Services"
+            },
+            {
+                "label": "Health Care Supplies",
+                "value": "Health Care Supplies"
+            },
+            {
+                "label": "Health Care Technology",
+                "value": "Health Care Technology"
+            },
+            {
+                "label": "Life Sciences Tools & Services",
+                "value": "Life Sciences Tools & Services"
+            },
+            {
+                "label": "Managed Health Care",
+                "value": "Managed Health Care"
+            },
+            {
+                "label": "Pharmaceuticals",
+                "value": "Pharmaceuticals"
+            }
+        ]
+    },
+    {
+        "name": "Materials",
+        "subsectors": [
+            {
+                "label": "Aluminum",
+                "value": "Aluminum"
+            },
+            {
+                "label": "Commodity Chemicals",
+                "value": "Commodity Chemicals"
+            },
+            {
+                "label": "Construction Materials",
+                "value": "Construction Materials"
+            },
+            {
+                "label": "Copper",
+                "value": "Copper"
+            },
+            {
+                "label": "Diversified Chemicals",
+                "value": "Diversified Chemicals"
+            },
+            {
+                "label": "Diversified Metals & Mining",
+                "value": "Diversified Metals & Mining"
+            },
+            {
+                "label": "Fertilizers & Agricultural Chemicals",
+                "value": "Fertilizers & Agricultural Chemicals"
+            },
+            {
+                "label": "Forest Products",
+                "value": "Forest Products"
+            },
+            {
+                "label": "Gold",
+                "value": "Gold"
+            },
+            {
+                "label": "Industrial Gases",
+                "value": "Industrial Gases"
+            },
+            {
+                "label": "Metal & Glass Containers",
+                "value": "Metal & Glass Containers"
+            },
+            {
+                "label": "Paper Packaging",
+                "value": "Paper Packaging"
+            },
+            {
+                "label": "Paper Products",
+                "value": "Paper Products"
+            },
+            {
+                "label": "Precious Metals & Minerals",
+                "value": "Precious Metals & Minerals"
+            },
+            {
+                "label": "Silver",
+                "value": "Silver"
+            },
+            {
+                "label": "Specialty Chemicals",
+                "value": "Specialty Chemicals"
+            },
+            {
+                "label": "Steel",
+                "value": "Steel"
+            }
+        ]
+    },
+    {
+        "name": "Information Technology",
+        "subsectors": [
+            {
+                "label": "Application Software",
+                "value": "Application Software"
+            },
+            {
+                "label": "Communications Equipment",
+                "value": "Communications Equipment"
+            },
+            {
+                "label": "Data Processing & Outsourced Services",
+                "value": "Data Processing & Outsourced Services"
+            },
+            {
+                "label": "Electronic Components",
+                "value": "Electronic Components"
+            },
+            {
+                "label": "Electronic Equipment & Instruments",
+                "value": "Electronic Equipment & Instruments"
+            },
+            {
+                "label": "Electronic Manufacturing Services",
+                "value": "Electronic Manufacturing Services"
+            },
+            {
+                "label": "IT Consulting & Other Services",
+                "value": "IT Consulting & Other Services"
+            },
+            {
+                "label": "Internet Services & Infrastructure",
+                "value": "Internet Services & Infrastructure"
+            },
+            {
+                "label": "Semiconductor Equipment",
+                "value": "Semiconductor Equipment"
+            },
+            {
+                "label": "Semiconductors",
+                "value": "Semiconductors"
+            },
+            {
+                "label": "Systems Software",
+                "value": "Systems Software"
+            },
+            {
+                "label": "Technology Distributors",
+                "value": "Technology Distributors"
+            },
+            {
+                "label": "Technology Hardware, Storage & Peripherals",
+                "value": "Technology Hardware, Storage & Peripherals"
+            }
+        ]
+    },
+    {
+        "name": "Consumer Discretionary",
+        "subsectors": [
+            {
+                "label": "Apparel Retail",
+                "value": "Apparel Retail"
+            },
+            {
+                "label": "Apparel, Accessories & Luxury Goods",
+                "value": "Apparel, Accessories & Luxury Goods"
+            },
+            {
+                "label": "Auto Parts & Equipment",
+                "value": "Auto Parts & Equipment"
+            },
+            {
+                "label": "Automobile Manufacturers",
+                "value": "Automobile Manufacturers"
+            },
+            {
+                "label": "Automotive Retail",
+                "value": "Automotive Retail"
+            },
+            {
+                "label": "Casinos & Gaming",
+                "value": "Casinos & Gaming"
+            },
+            {
+                "label": "Computer & Electronics Retail",
+                "value": "Computer & Electronics Retail"
+            },
+            {
+                "label": "Consumer Electronics",
+                "value": "Consumer Electronics"
+            },
+            {
+                "label": "Department Stores",
+                "value": "Department Stores"
+            },
+            {
+                "label": "Distributors",
+                "value": "Distributors"
+            },
+            {
+                "label": "Education Services",
+                "value": "Education Services"
+            },
+            {
+                "label": "Footwear",
+                "value": "Footwear"
+            },
+            {
+                "label": "General Merchandise Stores",
+                "value": "General Merchandise Stores"
+            },
+            {
+                "label": "Home Furnishings",
+                "value": "Home Furnishings"
+            },
+            {
+                "label": "Home Improvement Retail",
+                "value": "Home Improvement Retail"
+            },
+            {
+                "label": "Homebuilding",
+                "value": "Homebuilding"
+            },
+            {
+                "label": "Homefurnishing Retail",
+                "value": "Homefurnishing Retail"
+            },
+            {
+                "label": "Hotels, Resorts & Cruise Lines",
+                "value": "Hotels, Resorts & Cruise Lines"
+            },
+            {
+                "label": "Household Appliances",
+                "value": "Household Appliances"
+            },
+            {
+                "label": "Housewares & Specialties",
+                "value": "Housewares & Specialties"
+            },
+            {
+                "label": "Internet & Direct Marketing Retail",
+                "value": "Internet & Direct Marketing Retail"
+            },
+            {
+                "label": "Leisure Facilities",
+                "value": "Leisure Facilities"
+            },
+            {
+                "label": "Leisure Products",
+                "value": "Leisure Products"
+            },
+            {
+                "label": "Motorcycle Manufacturers",
+                "value": "Motorcycle Manufacturers"
+            },
+            {
+                "label": "Restaurants",
+                "value": "Restaurants"
+            },
+            {
+                "label": "Specialized Consumer Services",
+                "value": "Specialized Consumer Services"
+            },
+            {
+                "label": "Specialty Stores",
+                "value": "Specialty Stores"
+            },
+            {
+                "label": "Textiles",
+                "value": "Textiles"
+            },
+            {
+                "label": "Tires & Rubber",
+                "value": "Tires & Rubber"
+            }
+        ]
+    },
+    {
+        "name": "Utilities",
+        "subsectors": [
+            {
+                "label": "Electric Utilities",
+                "value": "Electric Utilities"
+            },
+            {
+                "label": "Gas Utilities",
+                "value": "Gas Utilities"
+            },
+            {
+                "label": "Independent Power Producers & Energy Traders",
+                "value": "Independent Power Producers & Energy Traders"
+            },
+            {
+                "label": "Multi-Utilities",
+                "value": "Multi-Utilities"
+            },
+            {
+                "label": "Renewable Electricity",
+                "value": "Renewable Electricity"
+            },
+            {
+                "label": "Water Utilities",
+                "value": "Water Utilities"
+            }
+        ]
+    },
+    {
+        "name": "Real Estate",
+        "subsectors": [
+            {
+                "label": "Diversified REITs",
+                "value": "Diversified REITs"
+            },
+            {
+                "label": "Diversified Real Estate Activities",
+                "value": "Diversified Real Estate Activities"
+            },
+            {
+                "label": "Health Care REITs",
+                "value": "Health Care REITs"
+            },
+            {
+                "label": "Hotel & Resort REITs",
+                "value": "Hotel & Resort REITs"
+            },
+            {
+                "label": "Industrial REITs",
+                "value": "Industrial REITs"
+            },
+            {
+                "label": "Office REITs",
+                "value": "Office REITs"
+            },
+            {
+                "label": "Real Estate Development",
+                "value": "Real Estate Development"
+            },
+            {
+                "label": "Real Estate Operating Companies",
+                "value": "Real Estate Operating Companies"
+            },
+            {
+                "label": "Real Estate Services",
+                "value": "Real Estate Services"
+            },
+            {
+                "label": "Residential REITs",
+                "value": "Residential REITs"
+            },
+            {
+                "label": "Retail REITs",
+                "value": "Retail REITs"
+            },
+            {
+                "label": "Specialized REITs",
+                "value": "Specialized REITs"
+            }
+        ]
+    },
+    {
+        "name": "Energy",
+        "subsectors": [
+            {
+                "label": "Coal & Consumable Fuels",
+                "value": "Coal & Consumable Fuels"
+            },
+            {
+                "label": "Integrated Oil & Gas",
+                "value": "Integrated Oil & Gas"
+            },
+            {
+                "label": "Oil & Gas Drilling",
+                "value": "Oil & Gas Drilling"
+            },
+            {
+                "label": "Oil & Gas Equipment & Services",
+                "value": "Oil & Gas Equipment & Services"
+            },
+            {
+                "label": "Oil & Gas Exploration & Production",
+                "value": "Oil & Gas Exploration & Production"
+            },
+            {
+                "label": "Oil & Gas Refining & Marketing",
+                "value": "Oil & Gas Refining & Marketing"
+            }
+        ]
+    },
+    {
+        "name": "Financials",
+        "subsectors": [
+            {
+                "label": "Asset Management & Custody Banks",
+                "value": "Asset Management & Custody Banks"
+            },
+            {
+                "label": "Consumer Finance",
+                "value": "Consumer Finance"
+            },
+            {
+                "label": "Diversified Banks",
+                "value": "Diversified Banks"
+            },
+            {
+                "label": "Diversified Capital Markets",
+                "value": "Diversified Capital Markets"
+            },
+            {
+                "label": "Financial Exchanges & Data",
+                "value": "Financial Exchanges & Data"
+            },
+            {
+                "label": "Insurance Brokers",
+                "value": "Insurance Brokers"
+            },
+            {
+                "label": "Investment Banking & Brokerage",
+                "value": "Investment Banking & Brokerage"
+            },
+            {
+                "label": "Life & Health Insurance",
+                "value": "Life & Health Insurance"
+            },
+            {
+                "label": "Mortgage REITs",
+                "value": "Mortgage REITs"
+            },
+            {
+                "label": "Multi-Sector Holdings",
+                "value": "Multi-Sector Holdings"
+            },
+            {
+                "label": "Multi-line Insurance",
+                "value": "Multi-line Insurance"
+            },
+            {
+                "label": "Other Diversified Financial Services",
+                "value": "Other Diversified Financial Services"
+            },
+            {
+                "label": "Property & Casualty Insurance",
+                "value": "Property & Casualty Insurance"
+            },
+            {
+                "label": "Regional Banks",
+                "value": "Regional Banks"
+            },
+            {
+                "label": "Reinsurance",
+                "value": "Reinsurance"
+            },
+            {
+                "label": "Specialized Finance",
+                "value": "Specialized Finance"
+            },
+            {
+                "label": "Thrifts & Mortgage Finance",
+                "value": "Thrifts & Mortgage Finance"
+            }
+        ]
+    },
+    {
+        "name": "Other",
+        "subsectors": [
+            {
+                "label": "Other",
+                "value": "Other"
+            }
+        ]
+    }
+]
