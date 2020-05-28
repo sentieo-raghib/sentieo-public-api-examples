@@ -1,0 +1,2286 @@
+openapi: 3.0.1
+info:
+  description: Sentieo is world's best equity research platform. Here's the developers can try out the demos.
+  version: 1.0.0
+  title: Sentieo Developers API
+  contact:
+    email: support@sentieo.com
+tags:
+  - name: documents
+    description: Document Search and Retrieval
+  - name: Notes
+    description: ''
+  - name: security master
+paths:
+  /documents/get:
+    get:
+      tags:
+        - documents
+      summary: Find document by ID
+      description: 'Returns html for a document e.g. 5cff7ca9668114405a001036 , 5d40b7385cf17cc7f1000cf3'
+      operationId: getDocsById
+      parameters:
+        - name: x-user-key
+          in: header
+          required: false
+          schema:
+            type: string
+        - name: id
+          in: query
+          description: ID of the document
+          required: true
+          schema:
+            type: string
+            example: 5cff7ca9668114405a001036
+      responses:
+        '200':
+          description: Success.
+          content:
+            text/html:
+              schema:
+                type: string
+        '400':
+          description: Bad Request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway400Response'
+                  
+        '404':
+          description: Document you are looking for could not be found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Documents404Response'
+              
+        '401':
+          description: Authorization information is missing or invalid.
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/Gateway401Response'
+                  - $ref: '#/components/schemas/Documents401Response'
+        '403':
+          description: Invalid API key.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway403Response'
+        '410':
+          description: Quota Exceeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway410Response'
+        '429':
+          description: Throttled/Too Many Requests.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway429Response'
+        '500':
+          description: Internal error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway500Response'
+            text/html:
+              schema:
+                type: string
+      security:
+        - api_key: []
+  /documents/search:
+    post:
+      tags:
+        - documents
+      summary: Search Documents
+      description: Returns a list of documents ordered by most recent according to a fixed criteria.
+      operationId: searchDocs
+      parameters:
+        - name: x-user-key
+          in: header
+          required: false
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref : '#/components/schemas/DocumentSearchRequestModel'
+        description: Request Body
+      responses:
+        '200':
+          description: Success.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PostDocumentSearchResponse'
+        '400':
+          description: Bad Request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway400Response'
+                  
+        '404':
+          description: Document you are looking for could not be found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Documents404Response'
+        '401':
+          description: Authorization information is missing or invalid.
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/Gateway401Response'
+                  - $ref: '#/components/schemas/Documents401Response'
+        '403':
+          description: Invalid API key.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway403Response' 
+        '410':
+          description: Quota Exceeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway410Response'
+        '429':
+          description: Throttled/Too Many Requests.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway429Response'        
+        '500':
+          description: Internal error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway500Response'
+            text/html:
+              schema:
+                type: string
+      security:
+        - api_key: []
+  /documents/get-pdf:
+    get:
+      tags:
+        - documents
+      summary: Get Document PDF File
+      description: 'Returns the pdf content of the document. e.g. 5cff7ca9668114405a001036 , 5d40b7385cf17cc7f1000cf3'
+      operationId: getDocsPdfById
+      parameters:
+        - name: x-user-key
+          in: header
+          required: false
+          schema:
+            type: string
+        - name: id
+          in: query
+          description: ID of the document
+          required: true
+          schema:
+            type: string
+            example: 5d40b7385cf17cc7f1000cf3
+      responses:
+        '200':
+          description: Success.
+          content:
+            application/json:
+              schema:
+                type: string
+                format: binary
+        '400':
+          description: Bad Request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway400Response'
+                  
+        '404':
+          description: Document you are looking for could not be found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Documents404Response'
+        '401':
+          description: Authorization information is missing or invalid.
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/Gateway401Response'
+                  - $ref: '#/components/schemas/Documents401Response'
+        '403':
+          description: Invalid API key.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway403Response'
+        '410':
+          description: Quota Exceeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway410Response'
+        '429':
+          description: Throttled/Too Many Requests.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway429Response'        
+        '500':
+          description: Internal error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway500Response'
+            text/html:
+              schema:
+                type: string
+      security:
+        - api_key: []
+  /documents/get-meta:
+    get:
+      tags:
+        - documents
+      summary: Get Document Meta Data
+      description: 'Returns the meta data for a document. e.g. 5cff7ca9668114405a001036 , 5d40b7385cf17cc7f1000cf3'
+      operationId: getDocsMetaById
+      parameters:
+        - name: x-user-key
+          in: header
+          required: false
+          schema:
+            type: string
+        - name: doc_ids
+          in: query
+          description: Ids of document separated by commas
+          required: true
+          schema:
+            type: string
+            example: 5d40b7385cf17cc7f1000cf3
+      responses:
+        '200':
+          description: Success.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetDocumentsGetMetaResponse'
+        '400':
+          description: Bad Request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway400Response'
+                  
+        '404':
+          description: Document you are looking for could not be found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Documents404Response'
+        '401':
+          description: Authorization information is missing or invalid.
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/Gateway401Response'
+                  - $ref: '#/components/schemas/Documents401Response'
+        '403':
+          description: Invalid API key.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway403Response'
+        '410':
+          description: Quota Exceeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway410Response'
+        '429':
+          description: Throttled/Too Many Requests.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway429Response'        
+        '500':
+          description: Internal error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway500Response'
+            text/html:
+              schema:
+                type: string
+      security:
+        - api_key: []
+ 
+  /documents/hits:
+    get:
+      tags:
+        - documents
+      summary: Search within a document for certain words.
+      description: Returns frequency of words in a document
+      operationId: getDocsByHits
+      parameters:
+        - name: x-user-key
+          in: header
+          required: false
+          schema:
+            type: string
+        - name: doc_id
+          in: query
+          description: Document ID e.g. 5db821ae5ed0361db2000927
+          required: true
+          schema:
+            type: string
+            example: 5db821ae5ed0361db2000927
+        - name: use_synonyms
+          in: query
+          description: true or false
+          required: false
+          schema:
+            type: string
+            example: 'false'
+        - name: query
+          in: query
+          description: Word to be searched in a document e.g. cars
+          required: true
+          schema:
+            type: string
+            example: cars
+      responses:
+        '200':
+          description: Success.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetDocumentsHitsResponse'
+        '400':
+          description: Bad Request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway400Response'
+                  
+        '404':
+          description: Document you are looking for could not be found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Documents404Response'
+        '401':
+          description: Authorization information is missing or invalid.
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/Gateway401Response'
+                  - $ref: '#/components/schemas/Documents401Response'
+        '403':
+          description: Invalid API key.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway403Response'
+        '410':
+          description: Quota Exceeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway410Response'
+        '429':
+          description: Throttled/Too Many Requests.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway429Response'        
+        '500':
+          description: Internal error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway500Response'
+            text/html:
+              schema:
+                type: string
+      security:
+        - api_key: []
+  /notes:
+    get:
+      summary: Fetch or Search in Notes
+      tags:
+        - Notes
+      operationId: getAllNotes
+      deprecated: false
+      parameters:
+        - name: term
+          in: query
+          required: false
+          example: sales
+          schema:
+            type: string
+        - name: filter
+          in: query
+          required: false
+          example: 'note_type%20eq%20typed%20and%20note_type%20eq%20highlight%20and%20created_dt%20gte%202019-04-01T00:00:00Z'
+          schema:
+            type: string
+        - name: offset
+          in: query
+          required: false
+          example: 10
+          schema:
+            type: integer
+        - name: limit
+          in: query
+          required: false
+          example: 10
+          schema:
+            type: integer
+        - name: order
+          in: query
+          required: false
+          example: updated_at:desc
+          schema:
+            type: string    
+        - name: x-user-key
+          in: header
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetNotesResponse'
+        '400':
+          description: Bad request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway400Response'
+        '401':
+          description: Authorization information is missing or invalid.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway401Response'
+        '403':
+          description: Invalid API key.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway403Response'        
+        '410':
+          description: Quota Exceeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway410Response'
+        '429':
+          description: Throttled/Too Many Requests.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway429Response'
+        '500':
+          description: Internal error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway500Response'
+            text/html:
+              schema:
+                type: string
+      security:
+        - api_key: []
+    post:
+      summary: Create a new Note
+      tags:
+        - Notes
+      operationId: createNote
+      deprecated: false
+      parameters:
+        - name: x-user-key
+          in: header
+          required: false
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NoteCreateRequestModel'
+        required: true
+      responses:
+        '201':
+          description: Success.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotesIdResponse'
+        '400':
+          description: Bad request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway400Response'
+        '401':
+          description: Authorization information is missing or invalid.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway401Response'
+        '403':
+          description: Invalid API key.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway403Response'        
+        '410':
+          description: Quota Exceeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway410Response'
+        '429':
+          description: Throttled/Too Many Requests.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway429Response'
+        '500':
+          description: Internal error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway500Response'
+            text/html:
+              schema:
+                type: string
+      security:
+        - api_key: []      
+  '/notes/{note_id}/tickers/{ticker}':
+    post:
+      summary: Adding a ticker to a note
+      tags:
+        - Notes
+      operationId: Addingatickertoanote
+      deprecated: false
+      parameters:
+        - name: x-user-key
+          in: header
+          required: false
+          schema:
+            type: string
+        - name: note_id
+          in: path
+          required: true
+          example: 5e7c56dcf8fe361771d55030
+          schema:
+            type: string
+        - name: ticker
+          in: path
+          required: true
+          example: aapl
+          schema:
+            type: string
+      responses:
+        '201':
+          description: Success.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PostNotesTickersResponse'
+        '400':
+          description: Bad request.
+          content:
+            application/json:
+              schema:
+                oneOf:
+                - $ref: '#/components/schemas/Gateway400Response'
+                - $ref: '#/components/schemas/Notes400Response'
+        '401':
+          description: Authorization information is missing or invalid.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway401Response'
+        '403':
+          description: Invalid API key.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway403Response'
+        '404':
+          description: Invalid note_id.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Notes404Response'        
+        '410':
+          description: Quota Exceeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway410Response'
+        '429':
+          description: Throttled/Too Many Requests.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway429Response'
+        '500':
+          description: Internal error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway500Response'
+            text/html:
+              schema:
+                type: string
+      security:
+        - api_key: []
+    delete:
+      summary: Deleting a ticker from a note
+      tags:
+        - Notes
+      operationId: Deletingatickerfromanote
+      deprecated: false
+      parameters:
+        - name: x-user-key
+          in: header
+          required: false
+          schema:
+            type: string
+        - name: note_id
+          in: path
+          required: true
+          example: 5e7c56dcf8fe361771d55030
+          schema:
+            type: string
+        - name: ticker
+          in: path
+          required: true
+          example: aapl
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Success.
+        '400':
+          description: Bad request.
+          content:
+            application/json:
+              schema:
+                oneOf:
+                - $ref: '#/components/schemas/Gateway400Response'
+                - $ref: '#/components/schemas/Notes400Response'
+        '401':
+          description: Authorization information is missing or invalid.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway401Response'
+        '403':
+          description: Invalid API key.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway403Response'
+        '404':
+          description: Invalid note_id or ticker not present in note.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Notes404Response'        
+        '410':
+          description: Quota Exceeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway410Response'
+        '429':
+          description: Throttled/Too Many Requests.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway429Response'
+        '500':
+          description: Internal error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway500Response'
+            text/html:
+              schema:
+                type: string
+      security:
+        - api_key: []
+  '/notes/{note_id}/tags/{tag}':
+    post:
+      summary: Adding a tag
+      tags:
+        - Notes
+      operationId: addNoteTags
+      deprecated: false
+      parameters:
+        - name: x-user-key
+          in: header
+          required: false
+          schema:
+            type: string
+        - name: note_id
+          in: path
+          required: true
+          example: 5e7c56dcf8fe361771d55030
+          schema:
+            type: string
+        - name: tag
+          in: path
+          required: true
+          example: revenue
+          schema:
+            type: string
+      responses:
+        '201':
+          description: Success.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PostNotesTagsResponse'
+        '400':
+          description: Bad request.
+          content:
+            application/json:
+              schema:
+                oneOf:
+                - $ref: '#/components/schemas/Gateway400Response'
+                - $ref: '#/components/schemas/Notes400Response'
+        '401':
+          description: Authorization information is missing or invalid.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway401Response'
+        '403':
+          description: Invalid API key.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway403Response'
+        '404':
+          description: Invalid note_id.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Notes404Response'        
+        '410':
+          description: Quota Exceeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway410Response'
+        '429':
+          description: Throttled/Too Many Requests.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway429Response'
+        '500':
+          description: Internal error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway500Response'
+            text/html:
+              schema:
+                type: string
+      security:
+        - api_key: []
+    delete:
+      summary: Deleting a tag from a note
+      tags:
+        - Notes
+      operationId: Deletingatagfromanote
+      deprecated: false
+      parameters:
+        - name: x-user-key
+          in: header
+          required: false
+          schema:
+            type: string
+        - name: note_id
+          in: path
+          required: true
+          example: 5e7c56dcf8fe361771d55030
+          schema:
+            type: string
+        - name: tag
+          in: path
+          required: true
+          example: revenue
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Success.
+        '400':
+          description: Bad request.
+          content:
+            application/json:
+              schema:
+                oneOf:
+                - $ref: '#/components/schemas/Gateway400Response'
+                - $ref: '#/components/schemas/Notes400Response'
+        '401':
+          description: Authorization information is missing or invalid.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway401Response'
+        '403':
+          description: Invalid API key.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway403Response'
+        '404':
+          description: Invalid note_id or tag not present in note.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Notes404Response'        
+        '410':
+          description: Quota Exceeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway410Response'
+        '429':
+          description: Throttled/Too Many Requests.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway429Response'
+        '500':
+          description: Internal error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway500Response'
+            text/html:
+              schema:
+                type: string
+      security:
+        - api_key: []
+  '/notes/{note_id}/attachments':
+    post:
+      summary: Adding files or attachements to a note
+      tags:
+        - Notes
+      operationId: addNoteAttachments
+      deprecated: false
+      parameters:
+        - name: x-user-key
+          in: header
+          required: false
+          schema:
+            type: string
+        - name: note_id
+          in: path
+          required: true
+          example: 5e7c56dcf8fe361771d55030
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddingAttachmentNotesRequestModel'
+        required: true
+      responses:
+        '200':
+          description: Success.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PostNotesAttachmentsResponse'
+        '201':
+          description: Success.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PostNotesAttachmentsResponse'        
+        '400':
+          description: Bad request.
+          content:
+            application/json:
+              schema:
+                oneOf:
+                - $ref: '#/components/schemas/Gateway400Response'
+                - $ref: '#/components/schemas/Notes400Response'
+        '401':
+          description: Authorization information is missing or invalid.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway401Response'
+        '403':
+          description: Invalid API key.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway403Response'
+        '404':
+          description: Invalid note_id.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Notes404Response'        
+        '410':
+          description: Quota Exceeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway410Response'
+        '429':
+          description: Throttled/Too Many Requests.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway429Response'
+        '500':
+          description: Internal error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway500Response'
+            text/html:
+              schema:
+                type: string
+      security:
+        - api_key: []
+  '/notes/{note_id}/comments':
+    get:
+      summary: Fetching the comments on a note
+      tags:
+        - Notes
+      operationId: getNoteComments
+      deprecated: false
+      parameters:
+        - name: x-user-key
+          in: header
+          required: false
+          schema:
+            type: string
+        - name: note_id
+          in: path
+          required: true
+          example: 5e7c56dcf8fe361771d55030
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetNotesCommentsResponse'
+        '400':
+          description: Bad request.
+          content:
+            application/json:
+              schema:
+                oneOf:
+                - $ref: '#/components/schemas/Gateway400Response'
+                - $ref: '#/components/schemas/Notes400Response'
+        '401':
+          description: Authorization information is missing or invalid.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway401Response'
+        '403':
+          description: Invalid API key.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway403Response'
+        '404':
+          description: Invalid note_id.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Notes404Response'        
+        '410':
+          description: Quota Exceeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway410Response'
+        '429':
+          description: Throttled/Too Many Requests.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway429Response'
+        '500':
+          description: Internal error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway500Response'
+            text/html:
+              schema:
+                type: string
+      security:
+        - api_key: []
+  '/notes/{note_id}/highlights':
+    get:
+      summary: Fetching the highlights on a note
+      tags:
+        - Notes
+      operationId: getNoteHighlights
+      deprecated: false
+      parameters:
+        - name: x-user-key
+          in: header
+          required: false
+          schema:
+            type: string
+        - name: note_id
+          in: path
+          required: true
+          example: 5e7c56dcf8fe361771d55030
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetNotesHighlightsResponse'
+        '400':
+          description: Bad request.
+          content:
+            application/json:
+              schema:
+                oneOf:
+                - $ref: '#/components/schemas/Gateway400Response'
+                - $ref: '#/components/schemas/Notes400Response'
+        '401':
+          description: Authorization information is missing or invalid.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway401Response'
+        '403':
+          description: Invalid API key.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway403Response'
+        '404':
+          description: Invalid note_id.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Notes404Response'        
+        '410':
+          description: Quota Exceeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway410Response'
+        '429':
+          description: Throttled/Too Many Requests.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway429Response'
+        '500':
+          description: Internal error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway500Response'
+            text/html:
+              schema:
+                type: string
+      security:
+        - api_key: []
+  '/notes/{note_id}':
+    get:
+      summary: 'Fetching a note with id {note_id}'
+      tags:
+        - Notes
+      operationId: getNoteId
+      parameters:
+        - name: x-user-key
+          in: header
+          required: false
+          schema:
+            type: string
+        - name: note_id
+          in: path
+          required: true
+          example: 5e7c56dcf8fe361771d55030
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotesIdResponse'
+        '400':
+          description: Bad request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway400Response'
+        '401':
+          description: Authorization information is missing or invalid.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway401Response'
+        '403':
+          description: Invalid API key.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway403Response'
+        '404':
+          description: Invalid note_id.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Notes404Response'        
+        '410':
+          description: Quota Exceeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway410Response'
+        '429':
+          description: Throttled/Too Many Requests.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway429Response'        
+        '500':
+          description: Internal error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway500Response'
+            text/html:
+              schema:
+                type: string
+      security:
+        - api_key: []
+    post:
+      summary: Update a specific note
+      tags:
+        - Notes
+      operationId: updateNoteId
+      deprecated: false
+      parameters:
+        - name: note_id
+          in: path
+          required: true
+          example: 5e7c56dcf8fe361771d55030
+          schema:
+            type: string
+        - name: x-user-key
+          in: header
+          required: false
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateNodeRequestModel'
+              
+      responses:
+        '200':
+          description: Success.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotesIdResponse'
+        '400':
+          description: Bad request.
+          content:
+            application/json:
+              schema:
+                oneOf:
+                - $ref: '#/components/schemas/Gateway400Response'
+                - $ref: '#/components/schemas/Notes400Response'
+        '401':
+          description: Authorization information is missing or invalid.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway401Response'
+        '403':
+          description: Invalid API key.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway403Response' 
+        '404':
+          description: Invalid note_id.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Notes404Response'        
+        '410':
+          description: Quota Exceeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway410Response'
+        '429':
+          description: Throttled/Too Many Requests.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway429Response'
+        '500':
+          description: Internal error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway500Response'
+            text/html:
+              schema:
+                type: string
+      security:
+        - api_key: []
+    delete:
+      summary: 'Delete a Note with Id {note_id}'
+      tags:
+        - Notes
+      operationId: deleteNoteId
+      deprecated: false
+      parameters:
+        - name: note_id
+          in: path
+          required: true
+          example: 5e7c56dcf8fe361771d55030
+          schema:
+            type: string
+        - name: x-user-key
+          in: header
+          required: false
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Success.
+        '400':
+          description: Bad request.
+          content:
+            application/json:
+              schema:
+                oneOf:
+                - $ref: '#/components/schemas/Gateway400Response'
+                - $ref: '#/components/schemas/Notes400Response'
+        '401':
+          description: Authorization information is missing or invalid.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway401Response'
+        '403':
+          description: Invalid API key.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway403Response'
+        '404':
+          description: Invalid note_id.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Notes404Response'        
+        '410':
+          description: Quota Exceeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway410Response'
+        '429':
+          description: Throttled/Too Many Requests.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway429Response'
+        '500':
+          description: Internal error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway500Response'
+            text/html:
+              schema:
+                type: string
+      security:
+        - api_key: []      
+  /sm/sentieo/securities/search:
+    get:
+      tags:
+        - security master
+      summary: Get Best Guesses In Sentieo Securities For External Security Identifier
+      description: Search for best guesses in sentieo securities for this particular external security identifier like CapIQ Ticker.This API an be used to search for capital IQ tickers in the sentieo securities database.
+      operationId: getSmSearch
+      parameters:
+        - name: x-user-key
+          in: header
+          required: false
+          schema:
+            type: string
+        - name: ciq_tickers
+          in: query
+          description: Current CIQ Ticker.
+          required: false
+          schema:
+            type: string
+            example: 'NasdaqGS:AAPL'
+        - name: old_ciq_tickers
+          in: query
+          description: Past CIQ Ticker. Use this if this CIQ ticker has now been replaced.
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetSecuritiesSearchResponse'
+        '400':
+          description: Bad request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway400Response'
+        '401':
+          description: Authorization information is missing or invalid.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway401Response'
+        '403':
+          description: Invalid API key.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway403Response'        
+        '410':
+          description: Quota Exceeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway410Response'
+        '429':
+          description: Throttled/Too Many Requests.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway429Response'
+        '500':
+          description: Internal error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway500Response'
+            text/html:
+              schema:
+                type: string
+      security:
+        - api_key: []
+  /sm/sentieo/securities/map:
+    get:
+      tags:
+        - security master
+      summary: Gives Sentieo Tickers and External Security Identifiers mapping
+      description: 'Get sentieo tickers and entity_ids for a list of external security identifiers like CapIQ Tickers, ISIN etc.'
+      operationId: getSmMap
+      parameters:
+        - name: x-user-key
+          in: header
+          required: false
+          schema:
+            type: string
+        - name: ciq_tickers
+          in: query
+          description: Comma Separated list of CapIQ Tickers
+          required: false
+          schema:
+            type: string
+            example: 'NasdaqGS:AAPL,NasdaqGS:MSFT'
+        - name: figi
+          in: query
+          description: Comma Separated List of Figi Codes. Max 100 allowed. e.g. BBG000BPH459,BBG000B9XRY4
+          required: false
+          schema:
+            type: string
+        - name: bloomberg_ticker
+          in: query
+          description: Comma Separated List of Bloomberg Tickers. Max 100 allowed. e.g. ADP FP,VOW GR
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetSecuritiesMapResponse'
+        '400':
+          description: Bad request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway400Response'
+        '401':
+          description: Authorization information is missing or invalid.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway401Response'
+        '403':
+          description: Invalid API key.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway403Response'        
+        '410':
+          description: Quota Exceeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway410Response'
+        '429':
+          description: Throttled/Too Many Requests.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway429Response'
+        '500':
+          description: Internal error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway500Response'
+            text/html:
+              schema:
+                type: string
+      security:
+        - api_key: []
+  /files:
+    post:
+      summary: Uploading a file
+      tags:
+        - Files
+      operationId: UploadingaFile
+      deprecated: false
+      parameters:
+        - name: x-user-key
+          in: header
+          required: false
+          schema:
+            type: string
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/UploadFileRequestModel' 
+      responses:
+        '200':
+          description: Success.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PostFilesResponse'
+        '400':
+          description: Bad request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway400Response'
+        '401':
+          description: Authorization information is missing or invalid.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway401Response'
+        '403':
+          description: Invalid API key.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway403Response'        
+        '410':
+          description: Quota Exceeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway410Response'
+        '429':
+          description: Throttled/Too Many Requests.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway429Response'
+        '500':
+          description: Internal error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway500Response'
+            text/html:
+              schema:
+                type: string
+      security:
+        - api_key: []
+externalDocs:
+  description: Developer API Docs
+  url: 'https://developer.sentieo.com/'
+servers:
+  - url: 'https://api.sentieo.com/v1'
+  
+components:
+  schemas:
+    UploadFileRequestModel:
+      type: object
+      properties:
+        files:
+          type: string
+          format: binary
+        file:
+          example: response.pdf
+          type: string
+      required:
+        - files
+      example:
+        file: response.pdf
+        attachments: b'abc'
+    
+    NoteCreateRequestModel:
+      type: object
+      title: Creatinganote-TypedRequest
+      example:
+        ref: The unique identifier for the client
+        type: typed
+        title: This is a test note title
+        content: This note can contain any html content
+        category: Meeting
+        tags:
+          - guidance
+          - revenue
+        tickers: 
+          - aapl
+          - fb
+        created_at: "2020-04-29T00:00:00"  
+      properties:
+        type:
+          type: string
+        title:
+          type: string
+        content:
+          type: string
+        file:
+          type: array
+          items:
+            type: object
+        ref:
+          type: string
+        category:
+          type: string
+        tags:
+          type: array
+          items:
+            type: string
+        tickers:
+          type: array
+          items:
+            type: string
+        created_at:
+          type: string
+        updated_at:
+          type: string 
+      required:
+        - type
+        - title
+        - content
+        - ref
+        - category
+        
+    AddingAttachmentNotesRequestModel:
+      title: AddingattachementtoanoteRequest
+      example:
+        files:
+          - file_id: 5e7c82a1f8fe36176acc6594
+            content_type: application/pdf
+            filename: response.pdf
+      type: object
+      properties:
+        files:
+          type: array
+          items:
+            title: File
+            example:
+              file_id: 5e68d856a4bb6b1331f12d5a
+              content_type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet
+              filename: ADasdSmm.xlsx
+            type: object
+            properties:
+              file_id:
+                type: string
+              content_type:
+                type: string
+              filename:
+                type: string
+            required:
+              - file_id
+              - content_type
+              - filename
+        datadict:
+          type: object
+          properties:
+            file_id:
+              type: string
+            content_type:
+              type: string
+            filename:
+              type: string
+          required:
+            - file_id
+            - content_type
+            - filename
+      required:
+        - files
+     
+    UpdateNodeRequestModel:
+      title: UpdatingaspecificnoteRequest
+      example:
+        title: This is a test note title
+        content: Sentieo is world's best equity research platform.
+      type: object
+      properties:
+        file:
+          type: array
+          items:
+            title: File
+            example:
+              file_id: 5e68d856a4bb6b1331f12d5a
+              content_type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet
+              filename: ADasdSmm.xlsx
+            type: object
+            properties:
+              file_id:
+                type: string
+              content_type:
+                type: string
+              filename:
+                type: string
+            required:
+              - file_id
+              - content_type
+              - filename
+        title:
+          type: string
+        content:
+          type: string
+        tags:
+          type: array
+          items:
+            type: string
+        tickers:
+          type: array
+          items:
+            type: string
+        category:
+          type: string
+        created_at:
+          type: string
+        updated_at:
+          type: string   
+    DocumentSearchRequestModel:
+      type: object
+      properties:
+        date_range_from:
+          type: string
+          example: 01-Jun-2019
+        size:
+          type: integer
+          example: 10
+        sort:
+          type: string
+          example: 'score:desc'
+        start:
+          type: integer
+          example: 0
+        doc_type:
+          type: array
+          items:
+            anyOf:
+              - type: string
+              - type: object
+                properties:
+                  name:
+                    type: string
+                  subtypes:
+                    type: array
+                    items:
+                      type: string
+                  tags:
+                    type: array
+                    items:
+                      type: string
+                  categories:
+                    type: array
+                    items:
+                      type: string
+                  authors:
+                    type: array
+                    items:
+                      type: string
+                  ctbids:
+                    type: array
+                    items:
+                      type: string 
+                  reasons:
+                    type: array
+                    items:
+                      type: string 
+                  styles:
+                    type: array
+                    items:
+                      type: string     
+                      
+          example:
+            - ef
+            - ppt
+        tickers:
+          type: string
+          example: tsla
+        date_range_to:
+          type: string
+          example: 21-Jan-2020
+        query:
+          type: string
+          example: sales
+        sectors:
+          type: array
+          items:
+            anyOf:
+              - type: object
+                properties:
+                  name:
+                    type: string
+                  subsectors:
+                    type: array
+                    items:
+                      type: string
+              - type: string
+          example:
+            - Information Technology
+        use_synonyms:
+          type: boolean
+      example:
+        date_range_from: 01-Jun-2019
+        size: 10
+        date_range_to: 21-Jan-2020
+        sort: 'score:desc'
+        start: 0
+        doc_type:
+          - ef
+          - ppt
+        tickers: aapl
+        query: sales
+        sectors: 
+          - Information Technology
+  
+    NotesIdResponse:
+      type: object
+      properties:
+        category:
+          type: string
+        attachments:
+          type: array
+          items:
+            type: object
+        shared_with_users:
+          type: array
+          items:
+            type: string
+        title:
+          type: string
+        highlights:
+          type: array
+          items:
+            type: string  
+        created_at:
+          type: string
+        tags:
+          type: array
+          items:
+            type: string  
+        updated_at:
+          type: string
+        active:
+          type: string
+        version:
+          type: string
+        short_url:
+          type: string
+        owner:
+          type: string
+        tickers:
+          type: array
+          items:
+            type: string  
+        type:
+          type: string
+        id:
+          type: string
+        shared_with_groups:
+          type: array
+          items:
+            type: string
+        tt_prelim:
+          type: boolean
+        rr_ctbids:
+          type: string
+        note_tags:
+          type: array
+          items: 
+            type: string
+        note_category:
+          type: string
+        note_updated_at:
+          type: string
+        note_encoding:
+          type: string
+        note_owner:
+          type: string
+        note_shared_with_users:
+          type: array
+          items: 
+            type: string
+        note_shared_with_groups:
+          type: array
+          items: 
+            type: string
+        note_created_at:
+          type: string
+        
+    
+    NotesNotValidSessionResponse:
+      type: object
+      properties:
+        counter:
+          type: integer
+        result:
+          type: array
+          items:
+            type: string 
+        response:
+          type: object
+          
+    GetNotesResponse:
+      type: object
+      properties:
+        offset:
+          type: integer
+        limit:
+          type: integer
+        entries:
+          type: array
+          items:
+            type: object
+            
+    PostNotesTickersResponse:
+      type: object
+      properties:
+        tickers:
+          type: array
+          items:
+            type: string
+        parent_note_id:
+          type: string  
+          
+    PostNotesTagsResponse:
+      type: object
+      properties:
+        tags:
+          type: array
+          items:
+            type: string
+        parent_note_id:
+          type: string  
+          
+    PostNotesAttachmentsResponse:
+      type: object
+      properties:
+        message:
+          type: string
+          
+    GetNotesCommentsResponse:
+      type: object
+      properties:
+        offset:
+          type: integer
+        limit:
+          type: integer
+        entries:
+          type: array
+          items:
+            type: object
+            
+    GetNotesHighlightsResponse:
+      type: object
+      properties:
+        offset:
+          type: integer
+        limit:
+          type: integer
+        entries:
+          type: array
+          items:
+            type: object   
+            
+    Notes400Response:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+            message:
+              type: string
+    
+    Notes404Response:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+            message:
+              type: string
+          
+    Gateway401Response:
+      type: object
+      properties:
+        response:
+          type: object
+          properties:
+            status:
+              type: boolean
+            msg:
+              type: array
+              items:
+                type: string 
+          
+    Gateway403Response:
+      type: object
+      properties:
+        response:
+          type: object
+          properties:
+            status:
+              type: boolean
+            msg:
+              type: array
+              items:
+                type: string 
+                
+    
+    Gateway400Response:
+      type: object
+      properties:
+        response:
+          type: object
+          properties:
+            status:
+              type: boolean
+            msg:
+              type: array
+              items:
+                type: string
+                
+    Gateway410Response:
+      type: object
+      properties:
+        response:
+          type: object
+          properties:
+            status:
+              type: boolean
+            msg:
+              type: array
+              items:
+                type: string 
+                
+    Gateway429Response:
+      type: object
+      properties:
+        response:
+          type: object
+          properties:
+            status:
+              type: boolean
+            msg:
+              type: array
+              items:
+                type: string
+    
+    Gateway500Response:
+      type: object
+      properties:
+        response:
+          type: object
+          properties:
+            status:
+              type: boolean
+            msg:
+              type: array
+              items:
+                type: string            
+    
+    Documents404Response:
+      type: object
+      properties:
+        counter:
+          type: integer
+        result:
+          type: array
+          items:
+            type: string 
+        response:
+          type: object
+    
+    Documents401Response:
+      type: object
+      properties:
+        counter:
+          type: integer
+        result:
+          type: array
+          items:
+            type: string 
+        response:
+          type: object      
+    
+    PostDocumentSearchResponse:
+      type: object
+      properties:
+        response:
+          type: object
+          properties:
+            status:
+              type: string
+            msg:
+              type: array
+              items:
+                type: string
+        result:
+          type: object
+          properties:
+            total:
+              type: integer
+            doc_type:
+              type: array
+              items:
+                type: string
+            doc_subtype:
+              type: array
+              items:
+                type: string
+            docs:
+              type: array
+              items:
+                type: object
+                properties:
+                  country_code:
+                    type: string
+                  ticker:
+                    type: string
+                  doc_subtype:
+                    type: string
+                  size:
+                    type: integer
+                  doc_type:
+                    type: string
+                  sectors:
+                    type: array
+                    items:
+                      type: string
+                  title:
+                    type: string
+                  country:
+                    type: string
+                  is_pdf_doc:
+                    type: boolean
+                  subsectors:
+                    type: array
+                    items:
+                      type: string  
+                  filing_date:
+                    type: string
+                  score:
+                    type: integer
+                  company_name:
+                    type: string
+                  tickers:
+                    type: array
+                    items:
+                      type: string
+                  doc_id:
+                    type: string
+    
+    GetDocumentsGetMetaResponse:
+      type: object
+      properties:
+        counter:
+          type: integer
+        result:
+          type: object
+        response:
+          type: object
+          properties:
+            status:
+              type: boolean
+            msg:
+              type: string
+    
+    GetDocumentsHitsResponse:
+      type: object
+      properties:
+        status:
+          type: object
+          properties:
+            status:
+              type: boolean
+            msg:
+              type: array
+              items:
+                type: string  
+        response:
+          type: object
+          properties:
+            id:
+              type: string
+            title:
+              type: string
+            doc_type:
+              type: string
+            doc_subtype:
+              type: string
+            filingdate:
+              type: string
+            total_hits:
+              type: integer
+            hits:
+              type: array
+              items:
+                type: string
+    
+    GetDocumentsHitsWrongDocIdResponse:
+      type: object
+      properties:
+        status:
+          type: object
+          properties:
+            status:
+              type: boolean
+            msg:
+              type: array
+              items:
+                type: string  
+            api:
+              type: string
+            field:
+              type: string
+            error:
+              type: string  
+        response:
+          type: object
+          properties:
+            total_hits:
+              type: integer
+            hits:
+              type: array
+              items:
+                type: string
+    
+    GetSecuritiesSearchResponse:
+      type: object
+      properties:
+        alternative_matches:
+          type: array
+          items:
+            type: object
+        perfect_matches:
+          type: array
+          items:
+            type: object
+    
+    GetSecuritiesMapResponse:
+      type: object
+      properties:
+        status:
+          type: object
+          properties:
+            status:
+              type: boolean
+            msg:
+              type: array
+              items:
+                type: string  
+        response:
+          type: object
+          
+    PostFilesResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        filename:
+          type: string
+        content_type:
+          type: string
+        id:
+          type: string
+          
+                    
+            
+  securitySchemes:
+    api_key:
+      type: apiKey
+      name: x-api-key
+      in: header
