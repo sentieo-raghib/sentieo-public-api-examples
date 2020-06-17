@@ -1995,6 +1995,8 @@ components:
           type: array
           items:
             type: string
+        active:
+          type: integer
         category:
           type: string
         created_at:
