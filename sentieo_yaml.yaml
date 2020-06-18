@@ -1826,11 +1826,11 @@ components:
         field_name:
           type: string
         field_value:
-          anyOf:
-            - type: string
-            - type: array
-              items:
-                type: string
+          - type: string
+        field_values:
+          - type: array
+            items:
+              type: string
         section_id: 
           type: string
         section_name:
@@ -1839,7 +1839,6 @@ components:
           type: integer
       required:
         - field_id
-        - field_value
     SectionDataModel:
       type: array
       items:
