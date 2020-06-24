@@ -10,6 +10,7 @@ tags:
     description: Document Search and Retrieval
   - name: Notes
     description: ''
+  - name: Files  
   - name: security master
 paths:
   /documents/get:
@@ -1149,7 +1150,7 @@ paths:
         - name: field_id
           in: path
           required: true
-          example: 5e15b92e71968240ee32cabc
+          example: 5ef050b7c0af314ac2df9d6b
           schema:
             type: string
       requestBody:
@@ -1235,7 +1236,7 @@ paths:
         - name: field_id
           in: path
           required: true
-          example: 5e15b92e71968240ee32cabc
+          example: 5ef050b7c0af314ac2df9d6b
           schema:
             type: string
       responses:
@@ -1616,6 +1617,51 @@ paths:
           required: false
           schema:
             type: string
+        - name: cusip
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: old_market_symbols
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: bloomberg_ticker
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: company_name
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: figi
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: isin
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: permid
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: ric
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: sentieo_ticker
+          in: query
+          required: false
+          schema:
+            type: string     
       responses:
         '200':
           description: Success.
@@ -1664,6 +1710,7 @@ paths:
                 type: string
       security:
         - api_key: []
+        
   /sm/sentieo/securities/map:
     get:
       tags:
@@ -1744,6 +1791,1419 @@ paths:
                 type: string
       security:
         - api_key: []
+
+  /sm/user/entities:
+    get:
+      tags:
+        - security master
+      summary: Fetching all entities
+      description: Returns a collection of entites
+      operationId: getUserEntities
+      parameters:
+        - name: x-user-key
+          in: header
+          required: true
+          schema:
+            type: string
+        - name: offset
+          in: query
+          description: 'The offset of the item at which to begin the response for entities. Default is 0.'
+          required: false
+          schema:
+            type: number
+            example: 0
+        - name: limit
+          in: query
+          description: 'Maximum number of entities to return per request. Maximum is 100, default is 20.'
+          required: false
+          schema:
+            type: number
+            example: 20
+        - name: ordering
+          in: query
+          description: 'Defines the attribute by which entities are to be sorted. Accepted values: -created_at created_at -updated_at, default is created_at.'
+          required: false
+          schema:
+            type: string
+            example: created_at
+        - name: search
+          in: query
+          description: 'would perform search on attributes name, short_name.'
+          required: false
+          schema:
+            type: string 
+            example: AAPL
+      responses:
+        '200':
+          description: Success.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SmGetUserEntitiesResponseModel'
+        '400':
+          description: Bad request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway400Response'
+        '401':
+          description: Authorization information is missing or invalid.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway401Response'
+        '403':
+          description: Invalid API key.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway403Response'        
+        '410':
+          description: Quota Exceeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway410Response'
+        '429':
+          description: Throttled/Too Many Requests.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway429Response'
+        '500':
+          description: Internal error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway500Response'
+            text/html:
+              schema:
+                type: string
+      security:
+        - api_key: [] 
+    post:
+      tags:
+        - security master
+      summary: Create an entity
+      operationId: postUserEntities
+      parameters:
+        - name: x-user-key
+          in: header
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SmPostUserEntitiesRequestModel'
+        required: true
+      responses:
+        '201':
+          description: Success.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SmPostUserEntitiesResponseModel'
+        '400':
+          description: Bad request.
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/Gateway400Response'
+                  - $ref: '#/components/schemas/SmUser400Response'
+                  - $ref: '#/components/schemas/SmUser400Response2'
+        '401':
+          description: Authorization information is missing or invalid.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway401Response'
+        '403':
+          description: Invalid API key.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway403Response'        
+        '410':
+          description: Quota Exceeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway410Response'
+        '429':
+          description: Throttled/Too Many Requests.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway429Response'
+        '500':
+          description: Internal error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway500Response'
+            text/html:
+              schema:
+                type: string
+      security:
+        - api_key: []
+    
+  /sm/user/entities/{id}/child_entities:
+    get:
+      tags:
+        - security master
+      summary: Returns a collection of entities which are children of the given {id} entity
+      description: The output does not include content of the given entity.
+      operationId: getUserChildEntities
+      parameters:
+        - name: x-user-key
+          in: header
+          required: true
+          schema:
+            type: string
+        - name: id
+          in: path
+          description: 'The ID of the entity'
+          required: true
+          schema:
+            type: string
+            example: 1
+        - name: offset
+          in: query
+          description: 'The offset of the item at which to begin the response for entities. Default is 0.'
+          required: false
+          schema:
+            type: number
+            example: 0
+        - name: limit
+          in: query
+          description: 'Maximum number of entities to return per request. Maximum is 100, default is 20.'
+          required: false
+          schema:
+            type: number
+            example: 20   
+      responses:
+        '200':
+          description: Success.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SmGetUserChildEntitiesResponseModel'
+        '400':
+          description: Bad request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway400Response'
+        '401':
+          description: Authorization information is missing or invalid.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway401Response'
+        '403':
+          description: Invalid API key.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway403Response'
+        '404':
+          description: Entity with id not exist.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SmUser404Response'        
+        '410':
+          description: Quota Exceeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway410Response'
+        '429':
+          description: Throttled/Too Many Requests.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway429Response'
+        '500':
+          description: Internal error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway500Response'
+            text/html:
+              schema:
+                type: string
+      security:
+        - api_key: [] 
+  /sm/user/entities/{id}/child_securities:
+    get:
+      tags:
+        - security master
+      summary: Returns a collection of securities which are children of the given {id} entity
+      description: The output does not include content of the given entity.
+      operationId: getUserChildSecurities
+      parameters:
+        - name: x-user-key
+          in: header
+          required: true
+          schema:
+            type: string
+        - name: id
+          in: path
+          description: 'The ID of the entity'
+          required: true
+          schema:
+            type: string
+            example: 1
+        - name: offset
+          in: query
+          description: 'The offset of the item at which to begin the response for entities. Default is 0.'
+          required: false
+          schema:
+            type: number
+            example: 0
+        - name: limit
+          in: query
+          description: 'Maximum number of entities to return per request. Maximum is 100, default is 20.'
+          required: false
+          schema:
+            type: number
+            example: 20   
+      responses:
+        '200':
+          description: Success.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SmGetUserChildSecuritiesResponseModel'
+        '400':
+          description: Bad request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway400Response'
+        '401':
+          description: Authorization information is missing or invalid.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway401Response'
+        '403':
+          description: Invalid API key.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway403Response'
+        '404':
+          description: Entity with id not exist.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SmUser404Response'        
+        '410':
+          description: Quota Exceeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway410Response'
+        '429':
+          description: Throttled/Too Many Requests.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway429Response'
+        '500':
+          description: Internal error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway500Response'
+            text/html:
+              schema:
+                type: string
+      security:
+        - api_key: [] 
+  
+     
+  /sm/user/securities:
+    get:
+      tags:
+        - security master
+      summary: Fetching all securities
+      operationId: getAllSecurities
+      parameters:
+        - name: x-user-key
+          in: header
+          required: true
+          schema:
+            type: string
+        - name: offset
+          in: query
+          description: 'The offset of the item at which to begin the response for securities. Default is 0.'
+          required: false
+          schema:
+            type: number
+            example: 0
+        - name: limit
+          in: query
+          description: 'Maximum number of securities to return per request. Maximum is 100, default is 20.'
+          required: false
+          schema:
+            type: number
+            example: 20
+        - name: ordering
+          in: query
+          description: 'Defines the attribute by which securities are to be sorted. Accepted values: -created_at created_at -updated_at, default is created_at.'
+          required: false
+          schema:
+            type: string
+            example: created_at
+        - name: search
+          in: query
+          description: 'would perform search on attributes name, short_name.'
+          required: false
+          schema:
+            type: string 
+            example: AAPL 
+      responses:
+        '200':
+          description: Success.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SmGetSecuritiesResponseModel'
+        '400':
+          description: Bad request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway400Response'
+        '401':
+          description: Authorization information is missing or invalid.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway401Response'
+        '403':
+          description: Invalid API key.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway403Response'        
+        '410':
+          description: Quota Exceeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway410Response'
+        '429':
+          description: Throttled/Too Many Requests.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway429Response'
+        '500':
+          description: Internal error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway500Response'
+            text/html:
+              schema:
+                type: string
+      security:
+        - api_key: [] 
+    post:
+      tags:
+        - security master
+      summary: Creates a security.
+      operationId: createSecurity
+      parameters:
+        - name: x-user-key
+          in: header
+          required: true
+          schema:
+            type: string   
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SmCreateSecurityRequestModel'
+        required: true
+      responses:
+        '201':
+          description: Success.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SmCreateSecurityResponseModel'
+        '400':
+          description: Bad request.
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/Gateway400Response'
+                  - $ref: '#/components/schemas/SmUser400Response'
+                  - $ref: '#/components/schemas/SmUser400Response2'
+        '401':
+          description: Authorization information is missing or invalid.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway401Response'
+        '403':
+          description: Invalid API key.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway403Response'       
+        '410':
+          description: Quota Exceeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway410Response'
+        '429':
+          description: Throttled/Too Many Requests.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway429Response'
+        '500':
+          description: Internal error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway500Response'
+            text/html:
+              schema:
+                type: string
+      security:
+        - api_key: []
+  
+          
+  /sm/user/securities/{id}/child_quotes:
+    get:
+      tags:
+        - security master
+      summary: Fetch Child Quotes of a Security
+      operationId: getUserChildQuotesSecurity
+      parameters:
+        - name: x-user-key
+          in: header
+          required: true
+          schema:
+            type: string
+        - name: id
+          in: path
+          description: 'The ID of the security'
+          required: true
+          schema:
+            type: string
+            example: 1 
+      responses:
+        '200':
+          description: Success.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SmGetChildQuotesSecurityResponseModel'
+        '400':
+          description: Bad request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway400Response'
+        '401':
+          description: Authorization information is missing or invalid.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway401Response'
+        '403':
+          description: Invalid API key.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway403Response'
+        '404':
+          description: Security with id not exist.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SmUser404Response'         
+        '410':
+          description: Quota Exceeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway410Response'
+        '429':
+          description: Throttled/Too Many Requests.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway429Response'
+        '500':
+          description: Internal error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway500Response'
+            text/html:
+              schema:
+                type: string
+      security:
+        - api_key: []
+         
+        
+  /sm/user/quotes:
+    get:
+      tags:
+        - security master
+      summary: Returns a collection of quotes.
+      operationId: getAllQuotes
+      parameters:
+        - name: x-user-key
+          in: header
+          required: true
+          schema:
+            type: string
+        - name: offset
+          in: query
+          description: 'The offset of the item at which to begin the response for quotes. Default is 0.'
+          required: false
+          schema:
+            type: number
+            example: 0
+        - name: limit
+          in: query
+          description: 'Maximum number of quotes to return per request. Maximum is 100, default is 20.'
+          required: false
+          schema:
+            type: number
+            example: 20
+        - name: ordering
+          in: query
+          description: 'Defines the attribute by which quotes are to be sorted. Accepted values: -created_at created_at -updated_at, default is created_at.'
+          required: false
+          schema:
+            type: string
+            example: created_at
+        - name: search
+          in: query
+          description: 'would perform search on attributes name, short_name.'
+          required: false
+          schema:
+            type: string 
+            example: AAPL 
+      responses:
+        '200':
+          description: Success.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SmGetQuotesResponseModel'
+        '400':
+          description: Bad request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway400Response'
+        '401':
+          description: Authorization information is missing or invalid.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway401Response'
+        '403':
+          description: Invalid API key.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway403Response'        
+        '410':
+          description: Quota Exceeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway410Response'
+        '429':
+          description: Throttled/Too Many Requests.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway429Response'
+        '500':
+          description: Internal error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway500Response'
+            text/html:
+              schema:
+                type: string
+      security:
+        - api_key: [] 
+    post:
+      tags:
+        - security master
+      summary: Creates a Quote.
+      operationId: createQuote
+      parameters:
+        - name: x-user-key
+          in: header
+          required: true
+          schema:
+            type: string   
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SmCreateQuoteRequestModel'
+        required: true
+      responses:
+        '201':
+          description: Success.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SmCreateQuoteResponseModel'
+        '400':
+          description: Bad request.
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/Gateway400Response'
+                  - $ref: '#/components/schemas/SmUser400Response'
+                  - $ref: '#/components/schemas/SmUser400Response2'
+        '401':
+          description: Authorization information is missing or invalid.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway401Response'
+        '403':
+          description: Invalid API key.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway403Response'        
+        '410':
+          description: Quota Exceeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway410Response'
+        '429':
+          description: Throttled/Too Many Requests.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway429Response'
+        '500':
+          description: Internal error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway500Response'
+            text/html:
+              schema:
+                type: string
+      security:
+        - api_key: []
+        
+  /sm/user/quotes/{id}:
+    get:
+      tags:
+        - security master
+      summary: Fetching a specific quote.
+      description: Returns the contents of the specific quotes.
+      operationId: getUserSpecificQuote
+      parameters:
+        - name: x-user-key
+          in: header
+          required: true
+          schema:
+            type: string
+        - name: id
+          in: path
+          description: 'The ID of the quote'
+          required: true
+          schema:
+            type: string
+            example: 1
+      responses:
+        '200':
+          description: Success.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SmGetUserSpecificQuoteResponseModel'
+        '400':
+          description: Bad request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway400Response'
+        '401':
+          description: Authorization information is missing or invalid.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway401Response'
+        '403':
+          description: Invalid API key.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway403Response'
+        '404':
+          description: Quote with id not exist.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SmUser404Response'         
+        '410':
+          description: Quota Exceeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway410Response'
+        '429':
+          description: Throttled/Too Many Requests.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway429Response'
+        '500':
+          description: Internal error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway500Response'
+            text/html:
+              schema:
+                type: string
+      security:
+        - api_key: [] 
+    patch:
+      tags:
+        - security master
+      summary: Updates parts of the quote
+      description: The values provided in the parameters are set as the new values in the system. If a parameter is not sent with the request, the system value remains unchanged.
+      operationId: patchUserSpecificQuote
+      parameters:
+        - name: x-user-key
+          in: header
+          required: true
+          schema:
+            type: string
+        - name: id
+          in: path
+          description: 'The ID of the quote'
+          required: true
+          schema:
+            type: string
+            example: 1    
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SmPatchUserSpecificQuoteRequestModel'
+        required: true
+      responses:
+        '200':
+          description: Success.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SmPatchUserSpecificQuoteResponseModel'
+        '400':
+          description: Bad request.
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/Gateway400Response'
+                  - $ref: '#/components/schemas/SmUser400Response'
+                  - $ref: '#/components/schemas/SmUser400Response2'
+        '401':
+          description: Authorization information is missing or invalid.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway401Response'
+        '403':
+          description: Invalid API key.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway403Response'
+        '404':
+          description: Quote with id not exist.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SmUser404Response'        
+        '410':
+          description: Quota Exceeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway410Response'
+        '429':
+          description: Throttled/Too Many Requests.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway429Response'
+        '500':
+          description: Internal error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway500Response'
+            text/html:
+              schema:
+                type: string
+      security:
+        - api_key: []
+    delete:
+      tags:
+        - security master
+      summary: Deleting a Quote
+      description: Soft deletes a quotes
+      operationId: DeleteQuote
+      parameters:
+        - name: x-user-key
+          in: header
+          required: true
+          schema:
+            type: string
+        - name: id
+          in: path
+          description: 'The ID of the quotes'
+          required: true
+          schema:
+            type: string
+            example: 1
+      responses:
+        '204':
+          description: Success.
+        '400':
+          description: Bad request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway400Response'
+        '401':
+          description: Authorization information is missing or invalid.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway401Response'
+        '403':
+          description: Invalid API key.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway403Response'
+        '404':
+          description: Quote with id not exist.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SmUser404Response'        
+        '410':
+          description: Quota Exceeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway410Response'
+        '429':
+          description: Throttled/Too Many Requests.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway429Response'
+        '500':
+          description: Internal error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway500Response'
+            text/html:
+              schema:
+                type: string
+      security:
+        - api_key: [] 
+        
+  
+  /sm/user/securities/{id}:
+    get:
+      tags:
+        - security master
+      summary: Fetching a specific security.
+      description: Returns the contents of the specific securities.
+      operationId: getUserSpecificSecurity
+      parameters:
+        - name: x-user-key
+          in: header
+          required: true
+          schema:
+            type: string
+        - name: id
+          in: path
+          description: 'The ID of the security'
+          required: true
+          schema:
+            type: string
+            example: 1
+      responses:
+        '200':
+          description: Success.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SmGetUserSpecificSecurityResponseModel'
+        '400':
+          description: Bad request.
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/Gateway400Response'
+                  - $ref: '#/components/schemas/SmUser400Response'
+        '401':
+          description: Authorization information is missing or invalid.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway401Response'
+        '403':
+          description: Invalid API key.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway403Response'
+        '404':
+          description: Security with id not exist.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SmUser404Response'        
+        '410':
+          description: Quota Exceeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway410Response'
+        '429':
+          description: Throttled/Too Many Requests.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway429Response'
+        '500':
+          description: Internal error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway500Response'
+            text/html:
+              schema:
+                type: string
+      security:
+        - api_key: [] 
+    patch:
+      tags:
+        - security master
+      summary: Updates parts of a specific security.
+      description: The values provided in the parameters are set as the new values in the system. If a parameter is not sent with the request, the system value remains unchanged.
+      operationId: patchUserSpecificSecurity
+      parameters:
+        - name: x-user-key
+          in: header
+          required: true
+          schema:
+            type: string
+        - name: id
+          in: path
+          description: 'The ID of the security'
+          required: true
+          schema:
+            type: string
+            example: 1    
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SmPatchUserSpecificSecurityRequestModel'
+        required: true
+      responses:
+        '200':
+          description: Success.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SmPatchUserSpecificSecurityResponseModel'
+        '400':
+          description: Bad request.
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/Gateway400Response'
+                  - $ref: '#/components/schemas/SmUser400Response'
+                  - $ref: '#/components/schemas/SmUser400Response2'
+        '401':
+          description: Authorization information is missing or invalid.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway401Response'
+        '403':
+          description: Invalid API key.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway403Response'
+        '404':
+          description: Security with id not exist.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SmUser404Response'         
+        '410':
+          description: Quota Exceeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway410Response'
+        '429':
+          description: Throttled/Too Many Requests.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway429Response'
+        '500':
+          description: Internal error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway500Response'
+            text/html:
+              schema:
+                type: string
+      security:
+        - api_key: []
+    delete:
+      tags:
+        - security master
+      summary: Delete a Secuity
+      description: Soft deletes a securities
+      operationId: DeleteSecurity
+      parameters:
+        - name: x-user-key
+          in: header
+          required: true
+          schema:
+            type: string
+        - name: id
+          in: path
+          description: 'The ID of the security'
+          required: true
+          schema:
+            type: string
+            example: 1
+      responses:
+        '204':
+          description: Success.
+        '400':
+          description: Bad request.
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/Gateway400Response'
+                  - $ref: '#/components/schemas/SmUser400Response'
+                  - $ref: '#/components/schemas/SmUser400Response2'
+        '401':
+          description: Authorization information is missing or invalid.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway401Response'
+        '403':
+          description: Invalid API key.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway403Response'
+        '404':
+          description: Security with id not exist.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SmUser404Response'         
+        '410':
+          description: Quota Exceeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway410Response'
+        '429':
+          description: Throttled/Too Many Requests.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway429Response'
+        '500':
+          description: Internal error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway500Response'
+            text/html:
+              schema:
+                type: string
+      security:
+        - api_key: []  
+      
+  
+  /sm/user/entities/{id}:
+    get:
+      tags:
+        - security master
+      summary: Fetching a specific entity
+      description: Returns the contents of the specific entities
+      operationId: getUserSpecificEntity
+      parameters:
+        - name: x-user-key
+          in: header
+          required: true
+          schema:
+            type: string
+        - name: id
+          in: path
+          description: 'The ID of the entity'
+          required: true
+          schema:
+            type: string
+            example: 1
+      responses:
+        '200':
+          description: Success.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SmGetUserSpecificEntityResponseModel'
+        '400':
+          description: Bad request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway400Response'
+        '401':
+          description: Authorization information is missing or invalid.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway401Response'
+        '403':
+          description: Invalid API key.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway403Response'
+        '404':
+          description: Entity with id not exist.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SmUser404Response'        
+        '410':
+          description: Quota Exceeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway410Response'
+        '429':
+          description: Throttled/Too Many Requests.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway429Response'
+        '500':
+          description: Internal error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway500Response'
+            text/html:
+              schema:
+                type: string
+      security:
+        - api_key: [] 
+    patch:
+      tags:
+        - security master
+      summary: Updates parts of the entity.
+      description: The values provided in the parameters are set as the new values in the system. If a parameter is not sent with the request, the system value remains unchanged.
+      operationId: patchUserSpecificEntity
+      parameters:
+        - name: x-user-key
+          in: header
+          required: true
+          schema:
+            type: string
+        - name: id
+          in: path
+          description: 'The ID of the entity'
+          required: true
+          schema:
+            type: string
+            example: 1    
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SmPatchUserSpecificEntityRequestModel'
+        required: true
+      responses:
+        '200':
+          description: Success.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SmPatchUserSpecificEntityResponseModel'
+        '400':
+          description: Bad request.
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/Gateway400Response'
+                  - $ref: '#/components/schemas/SmUser400Response'
+                  - $ref: '#/components/schemas/SmUser400Response2'
+        '401':
+          description: Authorization information is missing or invalid.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway401Response'
+        '403':
+          description: Invalid API key.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway403Response'
+        '404':
+          description: Entity with id not exist.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SmUser404Response'         
+        '410':
+          description: Quota Exceeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway410Response'
+        '429':
+          description: Throttled/Too Many Requests.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway429Response'
+        '500':
+          description: Internal error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway500Response'
+            text/html:
+              schema:
+                type: string
+      security:
+        - api_key: []
+    delete:
+      tags:
+        - security master
+      summary: Delete an entity
+      description: Soft deletes an entity
+      operationId: DeleteEntity
+      parameters:
+        - name: x-user-key
+          in: header
+          required: true
+          schema:
+            type: string
+        - name: id
+          in: path
+          description: 'The ID of the entity'
+          required: true
+          schema:
+            type: string
+            example: 1
+      responses:
+        '204':
+          description: Success.
+        '400':
+          description: Bad request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway400Response'
+        '401':
+          description: Authorization information is missing or invalid.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway401Response'
+        '403':
+          description: Invalid API key.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway403Response'
+        '404':
+          description: Entity with id not exist.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SmUser404Response'        
+        '410':
+          description: Quota Exceeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway410Response'
+        '429':
+          description: Throttled/Too Many Requests.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway429Response'
+        '500':
+          description: Internal error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway500Response'
+            text/html:
+              schema:
+                type: string
+      security:
+        - api_key: []       
+     
+        
   /files:
     post:
       summary: Uploading a file
@@ -1810,12 +3270,79 @@ paths:
                 type: string
       security:
         - api_key: []
+        
+  /file_url:
+    post:
+      summary: Uploading large files
+      description: Uploads a file to the Sentieo servers. Returns the id of the Resource created in Sentieo.
+      tags:
+        - Files
+      operationId: UploadingLargeFile
+      deprecated: false
+      parameters:
+        - name: x-user-key
+          in: header
+          required: false
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UploadLargeFileRequestModel' 
+      responses:
+        '200':
+          description: Success.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UploadLargeFileResponseModel'
+        '400':
+          description: Bad request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway400Response'
+        '401':
+          description: Authorization information is missing or invalid.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway401Response'
+        '403':
+          description: Invalid API key.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway403Response'        
+        '410':
+          description: Quota Exceeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway410Response'
+        '429':
+          description: Throttled/Too Many Requests.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway429Response'
+        '500':
+          description: Internal error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway500Response'
+            text/html:
+              schema:
+                type: string
+      security:
+        - api_key: []      
 externalDocs:
   description: Developer API Docs
   url: 'https://developer.sentieo.com/'
 servers:
   - url: 'https://api.sentieo.com/v1'
-
 components:
   schemas:
     CustomFieldModel:
@@ -1839,10 +3366,14 @@ components:
           type: integer
       required:
         - field_id
+      example:
+        field_id: 5ef050b7c0af314ac2df9d6b
+        field_value: 123456
     SectionDataModel:
       type: array
       items:
         $ref: '#/components/schemas/CustomFieldModel'
+
     UploadFileRequestModel:
       type: object
       properties:
@@ -1856,7 +3387,34 @@ components:
         - files
       example:
         file: response.pdf
-        attachments: b'abc'
+        files: b'abc'
+        
+    UploadLargeFileRequestModel:
+      type: object
+      properties:
+        filename:
+          type: string
+          example: request.pdf
+        content_type:
+          type: string
+          example: application/pdf
+      required:
+        - filename
+      example:
+        filename: request.pdf
+        content_type: application/pdf
+      
+    UploadLargeFileResponseModel:
+      type: object
+      properties:
+        upload_url:
+          type: string
+        id:
+          type: string
+        filename:
+          type: string
+        content_type:
+          type: string
 
     NoteCreateRequestModel:
       type: object
@@ -2004,6 +3562,7 @@ components:
           type: string
         section_data:
           $ref: '#/components/schemas/SectionDataModel' 
+          
     DocumentSearchRequestModel:
       type: object
       properties:
@@ -2099,6 +3658,468 @@ components:
         query: sales
         sectors: 
           - Information Technology
+    
+    UserEntityModel:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        short_name:
+          type: string
+        datastream_ds_cmpy_code:
+          type: number
+        datastream_ds_comp_code:
+          type: string
+        capiq_company_id:
+          type: number
+        rkd_org_id:
+          type: string
+        tr_issuer_code:
+          type: number
+        tr_company_perm_id:
+          type: number
+        crunchbase_uuid:
+          type: string
+        crunchbase_permalink:
+          type: string
+        fds_entity_id:
+          type: string
+        cik_code:
+          type: number
+        lei_code:
+          type: string
+        client_entity_id:
+          type: string
+        other_names:
+          type: array
+          items:
+            type: string
+        active:
+          type: number
+        created_by:
+          type: string
+        owner:
+          type: string
+        owner_type:
+          type: string
+        created_at:
+          type: string
+        updated_at:
+          type: string
+        parent_entity_id:
+          type: string
+        ultimate_parent_entity_id:
+          type: string
+        primary_security_id:
+          type: string 
+        primary_quote_id:
+          type: string 
+        sentieo_entity_id:
+          type: number   
+      
+    SmPostUserEntitiesRequestModel:
+      type: object
+      properties:
+        name:
+          type: string
+        short_name:
+          type: string
+        parent_entity_id:
+          type: string
+        ultimate_security_id:
+          type: string
+        primary_security_id:
+          type: string
+        primary_quote_id:
+          type: string
+        datastream_ds_cmpy_code:
+          type: number
+        datastream_ds_comp_code:
+          type: string
+        capiq_company_id:
+          type: string
+        rkd_org_id:
+          type: string
+        tr_issuer_code:
+          type: number
+        tr_company_perm_id:
+          type: number  
+        crunchbase_uuid:
+          type: string  
+        crunchbase_permalink:
+          type: string  
+        fds_entity_id:
+          type: string
+        cik_code:
+          type: number
+        lei_code:
+          type: string
+        client_entity_id:
+          type: string
+        other_names:
+          type: array
+          items:
+            type: string
+      example:
+        name: 'Apple Inc.'
+        short_name: 'AAPL'
+      required:
+        - name
+        - short_name
+        
+    SmPatchUserSpecificEntityRequestModel:
+      $ref: '#/components/schemas/SmPostUserEntitiesRequestModel'
+          
+    SmPostUserEntitiesResponseModel:
+      $ref: '#/components/schemas/UserEntityModel'
+    
+    SmGetUserSpecificEntityResponseModel:
+      $ref: '#/components/schemas/UserEntityModel'
+    
+    SmPatchUserSpecificEntityResponseModel:
+      $ref: '#/components/schemas/UserEntityModel'
+    
+    SmGetUserChildEntitiesResponseModel:
+      type: object
+      properties:
+        offset:
+          type: number
+        limit:
+          type: number
+        entries:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserEntityModel'
+    
+    SmGetUserChildSecuritiesResponseModel:
+      type: object
+      properties:
+        offset:
+          type: number
+        limit:
+          type: number
+        entries:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserEntityModel'
+    
+    SmGetUserEntitiesResponseModel:
+      type: object
+      properties:
+        offset:
+          type: number
+        limit:
+          type: number
+        entries:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserEntityModel'
+            
+    UserSecurityModel:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        short_name:
+          type: string
+        security_type:
+          type: string
+        is_primary_flag:
+          type: boolean
+        isin:
+          type: string
+        cusip_cins:
+          type: string
+        primary_ric:
+          type: string
+        rkd_code:
+          type: number
+        rkd_issue_code:
+          type: number
+        tr_sec_master_sec_code:
+          type: number
+        ciq_security_id:
+          type: string
+        fact_set_security_id:
+          type: string
+        datastream_ds_scty_code:
+          type: string
+        datastream_ds_sec_code:
+          type: number
+        tr_instrument_perm_id:
+          type: number
+        ibes_code:
+          type: number
+        ibes_s_ticker:
+          type: string
+        ibes_i_ticker:
+          type: string
+        primary_bbg_symbol:
+          type: string
+        primary_fact_set_symbol:
+          type: string
+        primary_ciq_symbol:
+          type: string
+        other_names:
+          type: array
+          items:
+            type: string
+        active:
+          type: number
+        created_by:
+          type: string
+        owner:
+          type: string
+        owner_type:
+          type: string
+        created_at:
+          type: string
+        updated_at:
+          type: string
+        issuer_id:
+          type: number  
+    
+    SmCreateSecurityRequestModel:
+      type: object
+      properties:
+        issuer_id:
+          type: string
+        name:
+          type: string
+        short_name:
+          type: string
+        security_type:
+          type: string
+          enum: ["unit", "equity", "derivative", "mutual fund","fixed income","etf","fx","future","future option","index","indicator","UNIT","EQUITY","DERIVATIVE","MUTUAL FUND","FIXED INCOME","FUTURE","FUTURE OPTION","INDEX","INDICATOR","Unit", "Equity", "Derivative", "Mutual Fund", "Fixed Income", "ETF", "FX", "Future", "Future Option", "Index", "Indicator"]
+        is_primary_flag:
+          type: boolean
+        isin:
+          type: string
+        cusip_cins:
+          type: string
+        primary_ric:
+          type: string
+        rkd_code:
+          type: number
+        rkd_issue_code:
+          type: number
+        tr_sec_master_sec_code:
+          type: number
+        ciq_security_id:
+          type: string
+        fact_set_security_id:
+          type: string
+        datastream_ds_scty_code:
+          type: string
+        datastream_ds_sec_code:
+          type: number
+        tr_instrument_perm_id:
+          type: number
+        ibes_code:
+          type: number
+        ibes_s_ticker:
+          type: string
+        ibes_i_ticker:
+          type: string
+        primary_bbg_symbol:
+          type: string
+        primary_fact_set_symbol:
+          type: string
+        primary_ciq_symbol:
+          type: string
+        other_names:
+          type: array
+          items:
+            type: string
+      example:
+        issuer_id : '6'
+        name: 'Apple Public Share'
+        short_name: 'AAPL'
+        security_type: 'Equity'
+      required:
+        - name
+        - short_name
+        - issuer_id
+        - security_type 
+      
+    
+    SmCreateSecurityResponseModel:
+      $ref: '#/components/schemas/UserSecurityModel' 
+    
+    SmGetSecuritiesResponseModel:
+      type: object
+      properties:
+        offset:
+          type: number
+        limit:
+          type: number
+        entries:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserSecurityModel'
+    
+    SmGetUserSpecificSecurityResponseModel:
+      $ref: '#/components/schemas/UserSecurityModel'
+      
+    SmPatchUserSpecificSecurityRequestModel:
+      $ref: '#/components/schemas/SmCreateSecurityRequestModel'
+   
+    SmPatchUserSpecificSecurityResponseModel:
+      $ref: '#/components/schemas/UserSecurityModel'
+    
+    SmGetChildQuotesSecurityResponseModel:
+      type: object
+      properties:
+        offset:
+          type: number
+        limit:
+          type: number
+        entries:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserSecurityModel'
+            
+    SmCreateQuoteRequestModel:
+      type: object
+      properties:
+        security_id:
+          type: string
+        exchange_code:
+          type: string
+        name:
+          type: string
+        short_name:
+          type: string
+        sentieo_ticker:
+          type: string
+        exchange_mic_code:
+          type: string
+        exchange_region:
+          type: string
+        is_primary_flag:
+          type: boolean
+        exchange_symbol:
+          type: string
+        sedol:
+          type: string
+        ric:
+          type: string
+        ciq_symbol:
+          type: string
+        fact_set_symbol:
+          type: string
+        bbg_symbol:
+          type: string
+        datastream_infocode:
+          type: string
+        datastream_infocode_exchange:
+          type: string
+        tr_quote_perm_id:
+          type: number
+        other_names:
+          type: array
+          items:
+            type: string
+      example:
+        security_id: '5'
+        name: 'Apple Inc.'
+        short_name: 'unique_short_name'
+        exchange_code: 'NASDAQ'
+      required:
+        - security_id
+        - short_name
+        - name
+        - exchange_code
+
+    UserQuoteModel:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        short_name:
+          type: string
+        sentieo_entity_id:
+          type: number
+        exchange_code:
+          type: string
+        exchange_mic_code:
+          type: string
+        exchange_region:
+          type: string
+        is_primary_flag:
+          type: boolean
+        exchange_symbol:
+          type: string
+        sedol:
+          type: string
+        ric:
+          type: string
+        ciq_symbol:
+          type: string
+        fact_set_symbol:
+          type: string
+        bbg_symbol:
+          type: string
+        datastream_infocode:
+          type: string
+        datastream_infocode_exchange:
+          type: string
+        tr_quote_perm_id:
+          type: number
+        other_names:
+          type: array
+          items:
+            type: string
+        active:
+          type: number
+        created_by:
+          type: string
+        owner:
+          type: string
+        guid:
+          type: string
+        owner_type:
+          type: string
+        created_at:
+          type: string
+        updated_at:
+          type: string    
+        security_id:
+          type: string
+        security_isin:
+          type: string
+        sentieo_ticker:
+          type: string
+        
+    SmCreateQuoteResponseModel:
+      $ref: '#/components/schemas/UserQuoteModel'
+    
+    SmGetQuotesResponseModel:
+      type: object
+      properties:
+        offset:
+          type: number
+        limit:
+          type: number
+        entries:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserQuoteModel'
+    
+    SmGetUserSpecificQuoteResponseModel:
+      $ref: '#/components/schemas/UserQuoteModel'
+      
+    SmPatchUserSpecificQuoteRequestModel:
+      $ref: '#/components/schemas/SmCreateQuoteRequestModel'
+      
+    SmPatchUserSpecificQuoteResponseModel:
+      $ref: '#/components/schemas/UserQuoteModel'  
   
     NotesIdResponse:
       type: object
@@ -2272,6 +4293,44 @@ components:
               type: string
             message:
               type: string
+    
+    SmUser404Response:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+            message:
+              type: string
+    
+    SmUser400Response:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            message:
+              type: string
+            code:
+              type: string
+            detail:
+              type: object
+    
+    SmUser400Response2:
+      type: object
+      properties:
+        response:
+          type: object
+          properties:
+            status:
+              type: boolean
+            msg:
+              type: array
+              items:
+                type: string
+    
           
     Gateway401Response:
       type: object
@@ -2556,9 +4615,7 @@ components:
           type: string
         id:
           type: string
-          
-                    
-            
+       
   securitySchemes:
     api_key:
       type: apiKey
