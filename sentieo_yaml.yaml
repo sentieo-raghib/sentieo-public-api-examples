@@ -3894,7 +3894,7 @@ components:
           type: string
         security_type:
           type: string
-          enum: ["unit", "equity", "derivative", "mutual fund","fixed income","etf","fx","future","future option","index","indicator","UNIT","EQUITY","DERIVATIVE","MUTUAL FUND","FIXED INCOME","FUTURE","FUTURE OPTION","INDEX","INDICATOR","Unit", "Equity", "Derivative", "Mutual Fund", "Fixed Income", "ETF", "FX", "Future", "Future Option", "Index", "Indicator"]
+          enum: ['Unit', 'Equity', 'Derivative', 'Mutual Fund', 'Fixed Income', 'ETF', 'FX', 'Future', 'Future Option', 'Index', 'Indicator']
         is_primary_flag:
           type: boolean
         isin:
