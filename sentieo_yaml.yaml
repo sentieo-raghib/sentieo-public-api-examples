@@ -167,6 +167,65 @@ paths:
                 type: string
       security:
         - api_key: []
+  /documents/search_filters:
+    get:
+      tags:
+        - documents
+      summary: Get Search Filters
+      operationId: getFilters
+      parameters:
+        - name: x-user-key
+          in: header
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success.
+          content:
+            application/json:
+              schema:
+                type: object
+        '400':
+          description: Bad Request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway400Response'
+        '401':
+          description: Authorization information is missing or invalid.
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/Gateway401Response'
+                  - $ref: '#/components/schemas/Documents401Response'
+        '403':
+          description: Invalid API key.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway403Response'
+        '410':
+          description: Quota Exceeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway410Response'
+        '429':
+          description: Throttled/Too Many Requests.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway429Response'
+        '500':
+          description: Internal error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway500Response'
+      security:
+        - api_key: []      
   /documents/get-pdf:
     get:
       tags:
@@ -3358,6 +3417,8 @@ components:
           - type: array
             items:
               type: string
+        field_type:
+          type: string
         section_id: 
           type: string
         section_name:
@@ -3373,7 +3434,6 @@ components:
       type: array
       items:
         $ref: '#/components/schemas/CustomFieldModel'
-
     UploadFileRequestModel:
       type: object
       properties:
@@ -3614,8 +3674,11 @@ components:
                   styles:
                     type: array
                     items:
-                      type: string     
-                      
+                      type: string
+                  sections:
+                    type: array
+                    items:
+                      type: object
           example:
             - ef
             - ppt
@@ -3881,7 +3944,9 @@ components:
         updated_at:
           type: string
         issuer_id:
-          type: number  
+          type: number
+        share_class_figi:
+          type: string
     
     SmCreateSecurityRequestModel:
       type: object
@@ -3930,6 +3995,8 @@ components:
         primary_fact_set_symbol:
           type: string
         primary_ciq_symbol:
+          type: string
+        share_class_figi:
           type: string
         other_names:
           type: array
@@ -4020,6 +4087,8 @@ components:
           type: string
         tr_quote_perm_id:
           type: number
+        figi:
+          type: string
         other_names:
           type: array
           items:
@@ -4096,6 +4165,8 @@ components:
           type: string
         sentieo_ticker:
           type: string
+        figi:
+          type: string
         
     SmCreateQuoteResponseModel:
       $ref: '#/components/schemas/UserQuoteModel'
@@ -4170,34 +4241,6 @@ components:
           type: array
           items:
             type: string
-        tt_prelim:
-          type: boolean
-        rr_ctbids:
-          type: string
-        note_tags:
-          type: array
-          items: 
-            type: string
-        note_category:
-          type: string
-        note_updated_at:
-          type: string
-        note_encoding:
-          type: string
-        note_owner:
-          type: string
-        note_shared_with_users:
-          type: array
-          items: 
-            type: string
-        note_shared_with_groups:
-          type: array
-          items: 
-            type: string
-        note_created_at:
-          type: string
-        
-    
     NotesNotValidSessionResponse:
       type: object
       properties:
@@ -4209,7 +4252,6 @@ components:
             type: string 
         response:
           type: object
-          
     GetNotesResponse:
       type: object
       properties:
@@ -4221,7 +4263,6 @@ components:
           type: array
           items:
             type: object
-            
     PostNotesTickersResponse:
       type: object
       properties:
@@ -4501,7 +4542,43 @@ components:
                       type: string
                   doc_id:
                     type: string
-    
+                  note_shared_with_users:
+                    type: array
+                    items:
+                      type: string
+                  tt_prelim:
+                    type: boolean
+                  rr_ctbids:
+                    type: string
+                  note_tags:
+                    type: array
+                    items:
+                      type: string
+                  note_category:
+                    type: string
+                  note_updated_at:
+                    type: string
+                  note_encoding:
+                    type: string
+                  note_owner:
+                    type: string
+                  note_shared_with_groups:
+                    type: array
+                    items:
+                      type: string
+                  note_created_at:
+                    type: string
+                  note_section_data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        section_name:
+                          type: string
+                        section_fields:
+                          type: array
+                          items:
+                            $ref: '#/components/schemas/CustomFieldModel'
     GetDocumentsGetMetaResponse:
       type: object
       properties:
