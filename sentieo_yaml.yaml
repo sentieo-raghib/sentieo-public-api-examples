@@ -3944,7 +3944,7 @@ components:
         updated_at:
           type: string
         issuer_id:
-          type: number
+          type: string
         share_class_figi:
           type: string
     
