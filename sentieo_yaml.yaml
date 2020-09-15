@@ -3833,16 +3833,20 @@ components:
         - short_name
         
     SmPatchUserSpecificEntityRequestModel:
-      $ref: '#/components/schemas/SmPostUserEntitiesRequestModel'
+      allOf:
+        - $ref: '#/components/schemas/SmPostUserEntitiesRequestModel'
           
     SmPostUserEntitiesResponseModel:
-      $ref: '#/components/schemas/UserEntityModel'
+      allOf:
+        - $ref: '#/components/schemas/UserEntityModel'
     
     SmGetUserSpecificEntityResponseModel:
-      $ref: '#/components/schemas/UserEntityModel'
+      allOf:
+        - $ref: '#/components/schemas/UserEntityModel'
     
     SmPatchUserSpecificEntityResponseModel:
-      $ref: '#/components/schemas/UserEntityModel'
+      allOf:
+        - $ref: '#/components/schemas/UserEntityModel'
     
     SmGetUserChildEntitiesResponseModel:
       type: object
@@ -4173,7 +4177,8 @@ components:
           type: string
         
     SmCreateQuoteResponseModel:
-      $ref: '#/components/schemas/UserQuoteModel'
+      allOf:
+        - $ref: '#/components/schemas/UserQuoteModel'
     
     SmGetQuotesResponseModel:
       type: object
@@ -4188,13 +4193,16 @@ components:
             $ref: '#/components/schemas/UserQuoteModel'
     
     SmGetUserSpecificQuoteResponseModel:
-      $ref: '#/components/schemas/UserQuoteModel'
+      allOf:
+        - $ref: '#/components/schemas/UserQuoteModel'
       
     SmPatchUserSpecificQuoteRequestModel:
-      $ref: '#/components/schemas/SmCreateQuoteRequestModel'
+      allOf:
+        - $ref: '#/components/schemas/SmCreateQuoteRequestModel'
       
     SmPatchUserSpecificQuoteResponseModel:
-      $ref: '#/components/schemas/UserQuoteModel'  
+      allOf:
+        - $ref: '#/components/schemas/UserQuoteModel'  
   
     NotesIdResponse:
       type: object
