@@ -4015,7 +4015,8 @@ components:
       
     
     SmCreateSecurityResponseModel:
-      $ref: '#/components/schemas/UserSecurityModel' 
+      allOf:
+        - $ref: '#/components/schemas/UserSecurityModel'
     
     SmGetSecuritiesResponseModel:
       type: object
@@ -4030,13 +4031,16 @@ components:
             $ref: '#/components/schemas/UserSecurityModel'
     
     SmGetUserSpecificSecurityResponseModel:
-      $ref: '#/components/schemas/UserSecurityModel'
+      allOf:
+        - $ref: '#/components/schemas/UserSecurityModel'
       
     SmPatchUserSpecificSecurityRequestModel:
-      $ref: '#/components/schemas/SmCreateSecurityRequestModel'
+      allOf:
+        - $ref: '#/components/schemas/SmCreateSecurityRequestModel'
    
     SmPatchUserSpecificSecurityResponseModel:
-      $ref: '#/components/schemas/UserSecurityModel'
+      allOf:
+        - $ref: '#/components/schemas/UserSecurityModel'
     
     SmGetChildQuotesSecurityResponseModel:
       type: object
