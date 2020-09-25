@@ -606,7 +606,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Gateway403Response'        
+                $ref: '#/components/schemas/Gateway403Response'   
+        '409':
+          description: Conflict Already Exist.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway409Response'        
         '410':
           description: Quota Exceeded.
           content:
@@ -4438,6 +4444,26 @@ components:
               type: array
               items:
                 type: string
+    
+    Gateway409Response:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+            message:
+              type: string
+            inner_error:
+              type: object
+              properties:
+                ref:
+                  type: string
+                id:
+                  type: string
+                request_id:
+                  type: string
                 
     Gateway410Response:
       type: object
