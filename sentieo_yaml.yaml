@@ -3565,7 +3565,7 @@ components:
                 type: string
               updated_at:
                 type: string
-              note_title:
+              title:
                 type: string
             required:
               - file_id
@@ -3584,7 +3584,7 @@ components:
               type: string
             updated_at:
               type: string
-            note_title:
+            title:
               type: string
           required:
             - file_id
@@ -4130,7 +4130,6 @@ components:
         - security_id
         - short_name
         - name
-        - exchange_code
 
     UserQuoteModel:
       type: object
