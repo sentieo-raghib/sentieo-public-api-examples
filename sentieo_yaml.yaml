@@ -3541,6 +3541,7 @@ components:
           - file_id: 5e7c82a1f8fe36176acc6594
             content_type: application/pdf
             filename: response.pdf
+            created_at: "2020-01-01T00:00:00"
       type: object
       properties:
         files:
@@ -3571,25 +3572,7 @@ components:
               - file_id
               - content_type
               - filename
-        datadict:
-          type: object
-          properties:
-            file_id:
-              type: string
-            content_type:
-              type: string
-            filename:
-              type: string
-            created_at:
-              type: string
-            updated_at:
-              type: string
-            title:
-              type: string
-          required:
-            - file_id
-            - content_type
-            - filename
+
       required:
         - files
      
