@@ -2287,16 +2287,11 @@ paths:
       summary: Creates a security.
       operationId: createSecurity
       parameters:
-        - in: header
-          name: x-user-key
+        - name: x-user-key
+          in: header
           required: true
           schema:
             type: string   
-        - in: query
-          name: force
-          required: false
-          schema:
-            type: string
       requestBody:
         content:
           application/json:
@@ -2525,16 +2520,11 @@ paths:
       summary: Creates a Quote.
       operationId: createQuote
       parameters:
-        - in: header
-          name: x-user-key
+        - name: x-user-key
+          in: header
           required: true
           schema:
             type: string   
-        - in: query
-          name: force
-          required: false
-          schema:
-            type: string
       requestBody:
         content:
           application/json:
@@ -2685,12 +2675,7 @@ paths:
           required: true
           schema:
             type: string
-            example: 1   
-        - in: query
-          name: force
-          required: false
-          schema:
-            type: string
+            example: 1    
       requestBody:
         content:
           application/json:
@@ -2919,12 +2904,7 @@ paths:
           required: true
           schema:
             type: string
-            example: 1   
-        - in: query
-          name: force
-          required: false
-          schema:
-            type: string
+            example: 1    
       requestBody:
         content:
           application/json:
@@ -3422,7 +3402,80 @@ paths:
               schema:
                 type: string
       security:
-        - api_key: []      
+        - api_key: []
+  /users:
+    get:
+      summary: Fetch User Details
+      tags:
+        - Users
+      operationId: fetchUserDetails
+      deprecated: false
+      parameters:
+        - name: id
+          in: query
+          required: false
+          example: 5f6207a18572d213af76b06a
+          schema:
+            type: string
+        - name: email
+          in: query
+          required: false
+          example: example@example.com
+          schema:
+            type: string
+        - name: x-user-key
+          in: header
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetUserResponse'
+        '400':
+          description: Bad request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway400Response'
+        '401':
+          description: Authorization information is missing or invalid.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway401Response'
+        '403':
+          description: Invalid API key.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway403Response'        
+        '410':
+          description: Quota Exceeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway410Response'
+        '429':
+          description: Throttled/Too Many Requests.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway429Response'
+        '500':
+          description: Internal error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway500Response'
+            text/html:
+              schema:
+                type: string
+      security:
+        - api_key: []        
 externalDocs:
   description: Developer API Docs
   url: 'https://developer.sentieo.com/'
@@ -4225,7 +4278,38 @@ components:
     SmPatchUserSpecificQuoteResponseModel:
       allOf:
         - $ref: '#/components/schemas/UserQuoteModel'  
-  
+ 
+    GetUserResponse:
+      type: object
+      properties:
+        response:
+          type: object
+          properties:
+            status:
+              type: boolean
+            msg:
+              type: string
+            total_users:
+              type: number
+            result:
+              type: array
+              items:
+                type: object
+                properties:
+                  username:
+                    type: string
+                  first_name:
+                    type: string
+                  last_name:
+                    type: string
+                  id:
+                    type: string
+                  active:
+                    type: boolean
+                  email:
+                    type: string
+                    
+            
     NotesIdResponse:
       type: object
       properties:
