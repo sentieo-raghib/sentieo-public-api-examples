@@ -2297,6 +2297,7 @@ paths:
           required: false
           schema:
             type: string
+            example: True
       requestBody:
         content:
           application/json:
@@ -2691,6 +2692,7 @@ paths:
           required: false
           schema:
             type: string
+            example: True
       requestBody:
         content:
           application/json:
@@ -2925,6 +2927,7 @@ paths:
           required: false
           schema:
             type: string
+            example: True
       requestBody:
         content:
           application/json:
