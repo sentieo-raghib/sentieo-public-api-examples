@@ -606,7 +606,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Gateway403Response'        
+                $ref: '#/components/schemas/Gateway403Response'   
+        '409':
+          description: Conflict Already Exist.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway409Response'        
         '410':
           description: Quota Exceeded.
           content:
@@ -2281,11 +2287,16 @@ paths:
       summary: Creates a security.
       operationId: createSecurity
       parameters:
-        - name: x-user-key
-          in: header
+        - in: header
+          name: x-user-key
           required: true
           schema:
             type: string   
+        - in: query
+          name: force
+          required: false
+          schema:
+            type: string
       requestBody:
         content:
           application/json:
@@ -2514,11 +2525,16 @@ paths:
       summary: Creates a Quote.
       operationId: createQuote
       parameters:
-        - name: x-user-key
-          in: header
+        - in: header
+          name: x-user-key
           required: true
           schema:
             type: string   
+        - in: query
+          name: force
+          required: false
+          schema:
+            type: string
       requestBody:
         content:
           application/json:
@@ -2669,7 +2685,12 @@ paths:
           required: true
           schema:
             type: string
-            example: 1    
+            example: 1   
+        - in: query
+          name: force
+          required: false
+          schema:
+            type: string
       requestBody:
         content:
           application/json:
@@ -2898,7 +2919,12 @@ paths:
           required: true
           schema:
             type: string
-            example: 1    
+            example: 1   
+        - in: query
+          name: force
+          required: false
+          schema:
+            type: string
       requestBody:
         content:
           application/json:
@@ -3396,7 +3422,234 @@ paths:
               schema:
                 type: string
       security:
-        - api_key: []      
+        - api_key: []
+  /users:
+    get:
+      summary: Fetch User Details
+      tags:
+        - Users
+      operationId: fetchUserDetails
+      deprecated: false
+      parameters:
+        - name: id
+          in: query
+          required: false
+          example: 5f6207a18572d213af76b06a
+          schema:
+            type: string
+        - name: email
+          in: query
+          required: false
+          example: example@example.com
+          schema:
+            type: string
+        - name: x-user-key
+          in: header
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetUserResponse'
+        '400':
+          description: Bad request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway400Response'
+        '401':
+          description: Authorization information is missing or invalid.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway401Response'
+        '403':
+          description: Invalid API key.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway403Response'        
+        '410':
+          description: Quota Exceeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway410Response'
+        '429':
+          description: Throttled/Too Many Requests.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway429Response'
+        '500':
+          description: Internal error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway500Response'
+            text/html:
+              schema:
+                type: string
+      security:
+        - api_key: []
+  /fields:
+    get:
+      summary: Returns a collection of fields.
+      tags:
+        - Fields
+      operationId: fetchFieldDetails
+      deprecated: false
+      parameters:
+        - name: x-user-key
+          in: header
+          required: true
+          schema:
+            type: string
+        - name: offset
+          in: query
+          required: false
+          example: 10
+          schema:
+            type: integer
+        - name: limit
+          in: query
+          required: false
+          example: 10
+          schema:
+            type: integer
+        - name: search
+          in: query
+          description: 'would perform search on attributes name, key.'
+          required: false
+          schema:
+            type: string
+            example: custom_field_name
+      responses:
+        '200':
+          description: Success.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetFieldsResponseModel'
+        '400':
+          description: Bad request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway400Response'
+        '401':
+          description: Authorization information is missing or invalid.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway401Response'
+        '403':
+          description: Invalid API key.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway403Response'
+        '410':
+          description: Quota Exceeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway410Response'
+        '429':
+          description: Throttled/Too Many Requests.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway429Response'
+        '500':
+          description: Internal error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway500Response'
+            text/html:
+              schema:
+                type: string
+      security:
+        - api_key: []
+  /fields/{id}:
+      get:
+        tags:
+          - Fields
+        summary: Fetching a specific field.
+        description: Returns the contents of the specific field.
+        operationId: getUserSpecificField
+        parameters:
+          - name: x-user-key
+            in: header
+            required: true
+            schema:
+              type: string
+          - name: id
+            in: path
+            description: 'The ID of the field'
+            required: true
+            schema:
+              type: string
+              example: 1
+        responses:
+          '200':
+            description: Success.
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/GetSpecificFieldsResponseModel'
+          '400':
+            description: Bad request.
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Gateway400Response'
+          '401':
+            description: Authorization information is missing or invalid.
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Gateway401Response'
+          '403':
+            description: Invalid API key.
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Gateway403Response'
+          '404':
+            description: Quote with id not exist.
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/SmUser404Response'
+          '410':
+            description: Quota Exceeded.
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Gateway410Response'
+          '429':
+            description: Throttled/Too Many Requests.
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Gateway429Response'
+          '500':
+            description: Internal error.
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Gateway500Response'
+              text/html:
+                schema:
+                  type: string
+        security:
+          - api_key: []
 externalDocs:
   description: Developer API Docs
   url: 'https://developer.sentieo.com/'
@@ -3412,9 +3665,9 @@ components:
         field_name:
           type: string
         field_value:
-          - type: string
+          type: string
         field_values:
-          - type: array
+            type: array
             items:
               type: string
         field_type:
@@ -3535,6 +3788,7 @@ components:
           - file_id: 5e7c82a1f8fe36176acc6594
             content_type: application/pdf
             filename: response.pdf
+            created_at: "2020-01-01T00:00:00"
       type: object
       properties:
         files:
@@ -3545,6 +3799,8 @@ components:
               file_id: 5e68d856a4bb6b1331f12d5a
               content_type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet
               filename: ADasdSmm.xlsx
+              created_at: "2020-01-01T00:00:00"
+              updated_at: "2020-01-01T00:00:00"
             type: object
             properties:
               file_id:
@@ -3553,23 +3809,17 @@ components:
                 type: string
               filename:
                 type: string
+              created_at:
+                type: string
+              updated_at:
+                type: string
+              title:
+                type: string
             required:
               - file_id
               - content_type
               - filename
-        datadict:
-          type: object
-          properties:
-            file_id:
-              type: string
-            content_type:
-              type: string
-            filename:
-              type: string
-          required:
-            - file_id
-            - content_type
-            - filename
+
       required:
         - files
      
@@ -3833,16 +4083,20 @@ components:
         - short_name
         
     SmPatchUserSpecificEntityRequestModel:
-      $ref: '#/components/schemas/SmPostUserEntitiesRequestModel'
+      allOf:
+        - $ref: '#/components/schemas/SmPostUserEntitiesRequestModel'
           
     SmPostUserEntitiesResponseModel:
-      $ref: '#/components/schemas/UserEntityModel'
+      allOf:
+        - $ref: '#/components/schemas/UserEntityModel'
     
     SmGetUserSpecificEntityResponseModel:
-      $ref: '#/components/schemas/UserEntityModel'
+      allOf:
+        - $ref: '#/components/schemas/UserEntityModel'
     
     SmPatchUserSpecificEntityResponseModel:
-      $ref: '#/components/schemas/UserEntityModel'
+      allOf:
+        - $ref: '#/components/schemas/UserEntityModel'
     
     SmGetUserChildEntitiesResponseModel:
       type: object
@@ -3944,7 +4198,7 @@ components:
         updated_at:
           type: string
         issuer_id:
-          type: number
+          type: string
         share_class_figi:
           type: string
     
@@ -4015,7 +4269,8 @@ components:
       
     
     SmCreateSecurityResponseModel:
-      $ref: '#/components/schemas/UserSecurityModel' 
+      allOf:
+        - $ref: '#/components/schemas/UserSecurityModel'
     
     SmGetSecuritiesResponseModel:
       type: object
@@ -4030,13 +4285,16 @@ components:
             $ref: '#/components/schemas/UserSecurityModel'
     
     SmGetUserSpecificSecurityResponseModel:
-      $ref: '#/components/schemas/UserSecurityModel'
+      allOf:
+        - $ref: '#/components/schemas/UserSecurityModel'
       
     SmPatchUserSpecificSecurityRequestModel:
-      $ref: '#/components/schemas/SmCreateSecurityRequestModel'
+      allOf:
+        - $ref: '#/components/schemas/SmCreateSecurityRequestModel'
    
     SmPatchUserSpecificSecurityResponseModel:
-      $ref: '#/components/schemas/UserSecurityModel'
+      allOf:
+        - $ref: '#/components/schemas/UserSecurityModel'
     
     SmGetChildQuotesSecurityResponseModel:
       type: object
@@ -4102,7 +4360,6 @@ components:
         - security_id
         - short_name
         - name
-        - exchange_code
 
     UserQuoteModel:
       type: object
@@ -4169,7 +4426,8 @@ components:
           type: string
         
     SmCreateQuoteResponseModel:
-      $ref: '#/components/schemas/UserQuoteModel'
+      allOf:
+        - $ref: '#/components/schemas/UserQuoteModel'
     
     SmGetQuotesResponseModel:
       type: object
@@ -4184,14 +4442,99 @@ components:
             $ref: '#/components/schemas/UserQuoteModel'
     
     SmGetUserSpecificQuoteResponseModel:
-      $ref: '#/components/schemas/UserQuoteModel'
+      allOf:
+        - $ref: '#/components/schemas/UserQuoteModel'
       
     SmPatchUserSpecificQuoteRequestModel:
-      $ref: '#/components/schemas/SmCreateQuoteRequestModel'
+      allOf:
+        - $ref: '#/components/schemas/SmCreateQuoteRequestModel'
       
     SmPatchUserSpecificQuoteResponseModel:
-      $ref: '#/components/schemas/UserQuoteModel'  
-  
+      allOf:
+        - $ref: '#/components/schemas/UserQuoteModel'  
+ 
+    GetUserResponse:
+      type: object
+      properties:
+        response:
+          type: object
+          properties:
+            status:
+              type: boolean
+            msg:
+              type: string
+            total_users:
+              type: number
+            result:
+              type: array
+              items:
+                type: object
+                properties:
+                  username:
+                    type: string
+                  first_name:
+                    type: string
+                  last_name:
+                    type: string
+                  id:
+                    type: string
+                  active:
+                    type: boolean
+                  email:
+                    type: string
+                    
+    FieldModel:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        key:
+          type: string
+        options:
+          type: array
+          items:
+            type: string
+        other_flags:
+          type: object
+        description:
+          type: object
+        default:
+          type: string
+        created_at:
+          type: string
+        updated_at:
+          type: string
+        active:
+          type: integer
+        group:
+          type: string
+        created_by:
+          type: string
+        source:
+          type: string
+        formula:
+          type: object
+
+    GetFieldsResponseModel:
+      type: object
+      properties:
+        total_count:
+          type: integer
+        offset:
+          type: integer
+        limit:
+          type: integer
+        entries:
+          type: array
+          items:
+            $ref: '#/components/schemas/FieldModel'
+
+    GetSpecificFieldsResponseModel:
+      allOf:
+        - $ref: '#/components/schemas/FieldModel'
+
     NotesIdResponse:
       type: object
       properties:
@@ -4412,6 +4755,26 @@ components:
               type: array
               items:
                 type: string
+    
+    Gateway409Response:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+            message:
+              type: string
+            inner_error:
+              type: object
+              properties:
+                ref:
+                  type: string
+                id:
+                  type: string
+                request_id:
+                  type: string
                 
     Gateway410Response:
       type: object
