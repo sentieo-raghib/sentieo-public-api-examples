@@ -3527,7 +3527,6 @@ paths:
           required: false
           schema:
             type: string
-            example: custom_field_name
       responses:
         '200':
           description: Success.
