@@ -3691,7 +3691,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Gateway403Response'
         '404':
-          description: Quote with id not exist.
+          description: Field with id not exist.
           content:
             application/json:
               schema:
@@ -3733,7 +3733,7 @@ paths:
             type: string
         - name: id
           in: path
-          description: 'The ID of the entity'
+          description: 'The ID of the field'
           required: true
           schema:
             type: string
@@ -3773,7 +3773,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Gateway403Response'
         '404':
-          description: Entity with id not exist.
+          description: Field with id not exist.
           content:
             application/json:
               schema:
@@ -3805,7 +3805,7 @@ paths:
       tags:
         - Fields
       summary: 'Deletes a Field'
-      description: Soft deletes an field
+      description: Soft deletes a field
       operationId: deleteUserSpecificField
       parameters:
         - name: x-user-key
@@ -3842,7 +3842,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Gateway403Response'
         '404':
-          description: Entity with id not exist.
+          description: Field with id not exist.
           content:
             application/json:
               schema:
