@@ -3527,6 +3527,12 @@ paths:
           required: false
           schema:
             type: string
+        - name: ref
+          in: query
+          description: 'would perform filter on ref attribute.'
+          required: false
+          schema:
+            type: string
       responses:
         '200':
           description: Success.
@@ -4709,6 +4715,8 @@ components:
       properties:
         id:
           type: string
+        ref:
+          type: string
         name:
           type: string
         key:
@@ -4759,6 +4767,8 @@ components:
     PostSpecificFieldsRequestModel:
       type: object
       properties:
+        ref:
+          type: string
         name:
           type: string
         type:
@@ -4772,6 +4782,14 @@ components:
           type: string
         required:
           type: boolean
+      example:
+        ref: 'example_ref'
+        name: 'Field1'
+        type: 'text'
+      required:
+        - security_id
+        - short_name
+        - name
 
     PatchSpecificFieldsRequestModel:
       type: object
